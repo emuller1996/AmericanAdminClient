@@ -12,6 +12,7 @@ import {
 import ProductTable from './ProductTable'
 import axios from 'axios'
 import ProductForm from './ProductForm'
+import { Link } from 'react-router-dom'
 
 const ProductList = () => {
   const [productsAll, setProductsAll] = useState([])
@@ -84,7 +85,11 @@ const ProductList = () => {
       <CButton onClick={() => setVisible(true)} color="primary">
         Crear Producto
       </CButton>
-      <CButton color="secondary">Categorias</CButton>
+      <CButton className="ms-2" color="secondary">
+        <Link className="fw-semibold text-decoration-none" to={'/categorias'}>
+          Categorias
+        </Link>
+      </CButton>
       <ProductTable products={productsAll && productsAll} />
 
       <CModal size="lg" visible={visible} onClose={() => setVisible(false)}>
