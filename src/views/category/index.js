@@ -9,8 +9,7 @@ const CategoryComponent = () => {
   const [visible, setVisible] = useState(false)
   const [visibleEdit, setVisibleEdit] = useState(false)
 
-  const [categoryInput, setCategoryInput] = useState()
-  const [categoryInputEdit, setCategoryInputEdit] = useState()
+  const [categoryInput, setCategoryInput] = useState({})
 
   useEffect(() => {
     getAllCategories()
@@ -45,8 +44,19 @@ const CategoryComponent = () => {
     } catch (error) {}
   }
 
-  const onEditCategory = () => {
-    console.log(categoryInputEdit)
+  const onEditCategory = async (e) => {
+    e.preventDefault()
+    console.log(categoryInput)
+    try {
+      const result = await axios.put(
+        `http://localhost:3001/category/${categoryInput.id}`,
+        categoryInput,
+      )
+      console.log(result.data)
+      setCategoryInput({})
+      setVisibleEdit(false)
+      getAllCategories()
+    } catch (error) {}
   }
 
   return (
@@ -61,7 +71,11 @@ const CategoryComponent = () => {
         </CCol>
       </CRow>
 
-      <CategoryList categories={categories} setVisibleEdit={setVisibleEdit} />
+      <CategoryList
+        categories={categories}
+        setVisibleEdit={setVisibleEdit}
+        setCategoryInput={setCategoryInput}
+      />
 
       <CModal visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader onClose={() => setVisible(false)}>
@@ -71,6 +85,7 @@ const CategoryComponent = () => {
           setVisible={setVisible}
           onSubmit={onSaveCategory}
           handleCategoryInput={handleCategoryInput}
+          categoryInput={categoryInput}
         />
       </CModal>
 
@@ -83,6 +98,7 @@ const CategoryComponent = () => {
           setVisible={setVisibleEdit}
           onSubmit={onEditCategory}
           handleCategoryInput={handleCategoryInput}
+          categoryInput={categoryInput}
         />
       </CModal>
     </CContainer>

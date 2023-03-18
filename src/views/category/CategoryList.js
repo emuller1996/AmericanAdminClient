@@ -3,7 +3,7 @@ import { CRow, CCol } from '@coreui/react'
 import PropTypes from 'prop-types'
 import './Category.scss'
 
-const CategoryList = ({ categories, setVisibleEdit }) => {
+const CategoryList = ({ categories, setVisibleEdit, setCategoryInput }) => {
   return (
     <CRow className="g-2">
       {categories &&
@@ -16,7 +16,10 @@ const CategoryList = ({ categories, setVisibleEdit }) => {
                 </div>
                 <div className="col-4 text-end">
                   <button
-                    onClick={() => setVisibleEdit(true)}
+                    onClick={() => {
+                      setVisibleEdit(true)
+                      setCategoryInput(c)
+                    }}
                     type="button"
                     className="btn btn-sm btn-info text-white fw-semibold "
                   >
@@ -34,5 +37,6 @@ const CategoryList = ({ categories, setVisibleEdit }) => {
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
   setVisibleEdit: PropTypes.func.isRequired,
+  setCategoryInput: PropTypes.func.isRequired,
 }
 export default CategoryList

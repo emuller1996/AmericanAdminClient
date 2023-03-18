@@ -12,7 +12,7 @@ import {
 } from '@coreui/react'
 import PropTypes from 'prop-types'
 
-function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
+function ProductForm({ handleProductInput, categories, setVisible, onSubmit, productInput }) {
   return (
     <CForm onSubmit={onSubmit} autoComplete="off">
       <CModalBody>
@@ -24,6 +24,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Nombre"
               placeholder=""
               name="name"
+              value={productInput.name}
               onChange={handleProductInput}
             />
           </CCol>
@@ -34,6 +35,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Precio"
               placeholder=""
               name="price"
+              value={productInput.price}
               onChange={handleProductInput}
             />
           </CCol>
@@ -44,6 +46,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Cantidad"
               placeholder=""
               name="stock"
+              value={productInput.stock}
               onChange={handleProductInput}
             />
           </CCol>
@@ -54,6 +57,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Marca"
               placeholder=""
               name="brand"
+              value={productInput.brand}
               onChange={handleProductInput}
             />
           </CCol>
@@ -63,6 +67,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Categoria"
               id="CategoryId"
               name="CategoryId"
+              value={productInput.CategoryId}
               onChange={handleProductInput}
               type="number"
             >
@@ -81,6 +86,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="URL Image"
               placeholder=""
               name="image"
+              value={productInput.image}
               onChange={handleProductInput}
             />
           </CCol>
@@ -90,6 +96,7 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit }) {
               label="Descripcion"
               rows={3}
               name="description"
+              value={productInput.description}
               onChange={handleProductInput}
             ></CFormTextarea>
           </CCol>
@@ -111,6 +118,7 @@ ProductForm.propTypes = {
   categories: PropTypes.array.isRequired,
   setVisible: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  productInput: PropTypes.object.isRequired,
 }
 
 export default ProductForm

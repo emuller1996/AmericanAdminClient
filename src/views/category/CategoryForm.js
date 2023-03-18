@@ -2,7 +2,7 @@ import { CForm, CFormInput, CButton, CModalBody, CModalFooter, CFormTextarea } f
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const CategoryForm = ({ setVisible, handleCategoryInput, onSubmit }) => {
+const CategoryForm = ({ setVisible, handleCategoryInput, onSubmit, categoryInput }) => {
   return (
     <CForm onSubmit={onSubmit}>
       <CModalBody>
@@ -13,6 +13,7 @@ const CategoryForm = ({ setVisible, handleCategoryInput, onSubmit }) => {
           label="Nombre Categoria"
           placeholder="Tenis"
           name="name"
+          value={categoryInput.name}
           onChange={handleCategoryInput}
         />
         <CFormTextarea
@@ -20,6 +21,7 @@ const CategoryForm = ({ setVisible, handleCategoryInput, onSubmit }) => {
           label="Descripcion"
           rows={3}
           name="description"
+          value={categoryInput.description}
           onChange={handleCategoryInput}
         ></CFormTextarea>
       </CModalBody>
@@ -39,5 +41,6 @@ CategoryForm.propTypes = {
   setVisible: PropTypes.func.isRequired,
   handleCategoryInput: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  categoryInput: PropTypes.object.isRequired,
 }
 export default CategoryForm
