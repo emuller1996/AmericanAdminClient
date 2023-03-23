@@ -25,7 +25,7 @@ const ClientTable = ({ clientes }) => {
           <tbody className="table-group-divider">
             {clientes &&
               clientes.map((c) => (
-                <tr key={c.id} className="table-primary">
+                <tr key={c.id} className="table-light">
                   <td scope="row">{c.id}</td>
                   <td>{c.name}</td>
                   <td>{c.email}</td>

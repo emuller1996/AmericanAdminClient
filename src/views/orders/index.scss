@@ -1,6 +1,16 @@
-.card-order-admin{
+.card-order-admin {
   color: #161821;
   background-color: #d6e0e7;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  height: 100%;
+  min-height: 170px;
+  max-height: auto;
+  text-align: center;
+  width: 100%;
+
+  &:hover {
+    color: #003c66;
+    background-color: #c2d9e9;
+  box-shadow: rgba(66, 113, 150, 0.445) 0px 1px 2px 0px, rgba(66, 113, 150, 0.445)  0px 1px 3px 1px;
+
+  }
 }
