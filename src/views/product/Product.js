@@ -41,14 +41,14 @@ const ProductList = () => {
   //OBTENER TODO LAS CATEGORIAS
   const getAllCategories = async () => {
     console.log('getAllCategories')
-    const result = await axios.get('http://localhost:3001/category')
+    const result = await axios.get('/category')
     setCategories(result.data)
   }
 
   //OBTENER TODO LOS PRODUCTOS
   const getAllProducts = async () => {
     console.log('getAllProducts')
-    const result = await axios.get('http://localhost:3001/products')
+    const result = await axios.get('/products')
     setProductsAll(result.data.products)
   }
 
@@ -62,7 +62,7 @@ const ProductList = () => {
 
     console.log(productInput)
     try {
-      const result = await axios.post('http://localhost:3001/products', productInput)
+      const result = await axios.post('/products', productInput)
       console.log(result.data)
       setProductInput({})
       addToast(
@@ -76,7 +76,15 @@ const ProductList = () => {
       setVisible(false)
       getAllProducts()
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.message)
+      addToast(
+        createProductToast({
+          option: {
+            title: error.response.data.message,
+            body: error.message,
+          },
+        }),
+      )
     }
   }
 
@@ -89,7 +97,7 @@ const ProductList = () => {
     console.log(productInput)
 
     try {
-      const result = await axios.put('http://localhost:3001/products', productInput)
+      const result = await axios.put('/products', productInput)
       console.log(result.data)
       setProductInput({})
       addToast(
@@ -104,6 +112,14 @@ const ProductList = () => {
       getAllProducts()
     } catch (error) {
       console.log(error)
+      addToast(
+        createProductToast({
+          option: {
+            title: error.response.data.message,
+            body: error.message,
+          },
+        }),
+      )
     }
   }
 

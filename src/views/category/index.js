@@ -8,6 +8,7 @@ const CategoryComponent = () => {
   const [categories, setCategories] = useState([])
   const [visible, setVisible] = useState(false)
   const [visibleEdit, setVisibleEdit] = useState(false)
+  const [error, setError] = useState()
 
   const [categoryInput, setCategoryInput] = useState({})
 
@@ -24,34 +25,38 @@ const CategoryComponent = () => {
 
   //OBTENER TODO LAS CATEGORIAS
   const getAllCategories = async () => {
-    console.log('getAllCategories')
-    const result = await axios.get('http://localhost:3001/category')
-    setCategories(result.data)
+    try {
+      console.log('getAllCategories')
+      const result = await axios.get('/category')
+      setCategories(result.data)
+    } catch (error) {
+      console.log(error)
+      setError({
+        title: error.response.data.message,
+        body: `CODESTATUS:${error.response.status}>>${error.code}>>${error.message}`,
+      })
+    }
   }
 
   const onSaveCategory = async (e) => {
     e.preventDefault()
     console.log(categoryInput)
     try {
-      const result = await axios.post(
-        `http://localhost:3001/category/${categoryInput.name}`,
-        categoryInput,
-      )
+      const result = await axios.post(`/category/${categoryInput.name}`, categoryInput)
       console.log(result.data)
       setCategoryInput({})
       setVisible(false)
       getAllCategories()
-    } catch (error) {}
+    } catch (error) {
+      alert(error.message)
+    }
   }
 
   const onEditCategory = async (e) => {
     e.preventDefault()
     console.log(categoryInput)
     try {
-      const result = await axios.put(
-        `http://localhost:3001/category/${categoryInput.id}`,
-        categoryInput,
-      )
+      const result = await axios.put(`/category/${categoryInput.id}`, categoryInput)
       console.log(result.data)
       setCategoryInput({})
       setVisibleEdit(false)
@@ -71,6 +76,12 @@ const CategoryComponent = () => {
         </CCol>
       </CRow>
 
+      {error && (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <p className="fw-bold m-0">{error.title}</p>
+          <small>{error.body}</small>
+        </div>
+      )}
       <CategoryList
         categories={categories}
         setVisibleEdit={setVisibleEdit}

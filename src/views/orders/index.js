@@ -14,7 +14,7 @@ const OrderComponent = () => {
   }, [])
 
   const getAllOrder = async () => {
-    const result = await axios.get('http://localhost:3001/order')
+    const result = await axios.get('/order')
     console.log(result.data.orders)
 
     setOrders(result.data.orders)

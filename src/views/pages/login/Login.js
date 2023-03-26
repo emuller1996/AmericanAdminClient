@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -15,8 +15,21 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import axios from 'axios'
 
 const Login = () => {
+  const [user, setUser] = useState({ username: '', password: '' })
+
+  const onLogin = async (e) => {
+    e.preventDefault()
+    const result = await axios.post('/auth', user)
+    console.log(result.data)
+  }
+
+  const handleInput = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value })
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -25,14 +38,20 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm onSubmit={onLogin}>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        name="username"
+                        onChange={handleInput}
+                        value={user.usermane}
+                        placeholder="Username"
+                        autoComplete="username"
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -40,13 +59,16 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
+                        name="password"
+                        onChange={handleInput}
+                        value={user.password}
                         placeholder="Password"
                         autoComplete="current-password"
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton type="submit" color="primary" className="px-4">
                           Login
                         </CButton>
                       </CCol>
