@@ -61,8 +61,12 @@ const ProductList = () => {
     productInput.stock = parseInt(productInput.stock)
 
     console.log(productInput)
+    const token = localStorage.getItem('token')
+
     try {
-      const result = await axios.post('/products', productInput)
+      const result = await axios.post('/products', productInput, {
+        headers: { 'access-token': token },
+      })
       console.log(result.data)
       setProductInput({})
       addToast(
@@ -95,9 +99,12 @@ const ProductList = () => {
     productInput.price = parseInt(productInput.price)
     productInput.stock = parseInt(productInput.stock)
     console.log(productInput)
+    const token = localStorage.getItem('token')
 
     try {
-      const result = await axios.put('/products', productInput)
+      const result = await axios.put('/products', productInput, {
+        headers: { 'access-token': token },
+      })
       console.log(result.data)
       setProductInput({})
       addToast(

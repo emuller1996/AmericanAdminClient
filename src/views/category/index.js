@@ -41,8 +41,11 @@ const CategoryComponent = () => {
   const onSaveCategory = async (e) => {
     e.preventDefault()
     console.log(categoryInput)
+    const token = localStorage.getItem('token')
     try {
-      const result = await axios.post(`/category/${categoryInput.name}`, categoryInput)
+      const result = await axios.post(`/category/${categoryInput.name}`, categoryInput, {
+        headers: { 'access-token': token },
+      })
       console.log(result.data)
       setCategoryInput({})
       setVisible(false)
@@ -55,8 +58,12 @@ const CategoryComponent = () => {
   const onEditCategory = async (e) => {
     e.preventDefault()
     console.log(categoryInput)
+    const token = localStorage.getItem('token')
+
     try {
-      const result = await axios.put(`/category/${categoryInput.id}`, categoryInput)
+      const result = await axios.put(`/category/${categoryInput.id}`, categoryInput, {
+        headers: { 'access-token': token },
+      })
       console.log(result.data)
       setCategoryInput({})
       setVisibleEdit(false)
