@@ -44,7 +44,7 @@ const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 
 // Notifications
 const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
-const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
+
 const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
@@ -53,6 +53,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const ProductList = React.lazy(() => import('./views/product/Product'))
 const Category = React.lazy(() => import('./views/category/index'))
 const Orders = React.lazy(() => import('./views/orders/index'))
+const OrdersUpdate = React.lazy(() => import('./views/orders/edit/index'))
 const Clients = React.lazy(() => import('./views/clients/index'))
 
 const routes = [
@@ -61,6 +62,7 @@ const routes = [
   { path: '/productos', name: 'Productos', element: ProductList, exact: true },
   { path: '/categorias', name: 'Categorias', element: Category },
   { path: '/ordenes', name: 'Ordendes', element: Orders },
+  { path: '/ordenes/:id', name: 'Editar Ordendes', element: OrdersUpdate },
   { path: '/clientes', name: 'Clientes', element: Clients },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
@@ -99,7 +101,6 @@ const routes = [
   { path: '/icons/brands', name: 'Brands', element: Brands },
   { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },
   { path: '/notifications/alerts', name: 'Alerts', element: Alerts },
-  { path: '/notifications/badges', name: 'Badges', element: Badges },
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },

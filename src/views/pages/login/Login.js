@@ -12,6 +12,7 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CSpinner,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -20,10 +21,13 @@ import axios from 'axios'
 const Login = () => {
   const [user, setUser] = useState({ username: '', password: '' })
   const [error, setError] = useState()
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
   const onLogin = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
+    setError(undefined)
     try {
       const result = await axios.post('/auth', user)
       console.log(result.data)
@@ -32,6 +36,8 @@ const Login = () => {
     } catch (error) {
       console.log(error)
       setError({ message: error.response.data.message, code: error.response.status })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -81,6 +87,13 @@ const Login = () => {
                         <strong className="d-block">{error.message}</strong>
                       </div>
                     )}
+
+                    {loading && (
+                      <div className="text-center p-4 mx-auto">
+                        <CSpinner color="secondary" />
+                      </div>
+                    )}
+
                     <CRow>
                       <CCol xs={6}>
                         <CButton type="submit" color="primary" className="px-4">

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './index.scss'
+import { Link } from 'react-router-dom'
 
 const ListOrdersComponent = ({ orders }) => {
   return (
@@ -14,10 +15,8 @@ const ListOrdersComponent = ({ orders }) => {
                 <div className="col-12">
                   <span className="fw-bold fs-5">Cliente :{o.User.name}</span>
                 </div>
-                <div className="col-5">
-                  <span className="fs-6">Tel:{o.User.phone}</span>
-                </div>
-                <div className="col-7">
+
+                <div className="col-6">
                   <span className="fs-6">Fecha:{o.purchase_date.substring(0, 10)}</span>
                 </div>
                 <div className="col-6">
@@ -25,6 +24,14 @@ const ListOrdersComponent = ({ orders }) => {
                     {' $'}
                     {o.total_payment.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                   </span>
+                </div>
+                <div className="col-6">
+                  <span className="badge bg-primary">{o.status}</span>
+                </div>
+                <div className="col-6">
+                  <Link to={`${o.id}`} type="button" className="btn button">
+                    Editar
+                  </Link>
                 </div>
               </div>
             </div>
