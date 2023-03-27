@@ -2,10 +2,12 @@ import { CAvatar } from '@coreui/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import MessagesComponent from './Messages'
 
 const OrderUpdate = () => {
   const { id } = useParams()
   const [orderDetail, setOrderDetail] = useState()
+
   useEffect(() => {
     console.log('OrderUpdate MONT')
     getOrderById(id)
@@ -107,40 +109,7 @@ const OrderUpdate = () => {
             </div>
           </div>
         </div>
-
-        <div className="col-12">
-          <div className="card border-0 rounded-0">
-            <div className="card-body">
-              <h4 className="card-title">Mensajes</h4>
-              <ul className="list-group mb-3 border border-secondary  ">
-                <li className="list-group-item">
-                  <span>
-                    <small className="ms-5 text-muted">Cliente : </small> Hola si asdkjasldsdlsñlñ
-                    <small className="ms-5 text-muted" style={{ fontSize: '0.7em' }}>
-                      17-03-2023 19:59
-                    </small>
-                  </span>
-                </li>
-              </ul>
-              <div className="mb-3">
-                <div className="row justify-content-center align-items-center g-2">
-                  <div className="col-10">
-                    <textarea className="form-control" name="" id="s" rows="3"></textarea>
-                  </div>
-                  <div className="col-2">
-                    <button
-                      type="button"
-                      className="btn btn-primary w-100 p-4"
-                      style={{ height: '100%' }}
-                    >
-                      Button
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {orderDetail && <MessagesComponent id={orderDetail.id} />}
       </div>
     </div>
   )
