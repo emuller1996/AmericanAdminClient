@@ -148,23 +148,42 @@ const ProductList = () => {
 
   return (
     <div className="container">
-      <CButton
-        className="rounded-3"
-        onClick={() => {
-          setVisible(true)
-          setProductInput({})
-        }}
-        color="primary"
-      >
-        Crear Producto
-      </CButton>
+      <div className="d-flex justify-content-center align-items-center g-2">
+        <div className="w-100">
+          <CButton
+            className="rounded-3"
+            onClick={() => {
+              setVisible(true)
+              setProductInput({})
+            }}
+            color="primary"
+          >
+            Crear Producto
+          </CButton>
+        </div>
+        <div className="d-flex">
+          <Link
+            className="ms-2 btn btn-secondary text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
+            to={'/categorias'}
+          >
+            Categorias
+          </Link>
 
-      <Link
+          <Link
+            className="ms-2 btn btn-warning text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
+            to={'/productos/tallas'}
+          >
+            Tallas
+          </Link>
+        </div>
+      </div>
+
+      {/* <Link
         className="ms-2 btn btn-secondary text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
         to={'/categorias'}
       >
         Categorias
-      </Link>
+      </Link> */}
 
       <ProductTable products={productsAll && productsAll} setProductInput={onSetEditInput} />
 
