@@ -22,6 +22,7 @@ const ProductList = () => {
   const [productInput, setProductInput] = useState({
     name: '',
   })
+  const [sizesProduct, setSizesProduct] = useState([])
   const [categories, setCategories] = useState([])
   const [toast, addToast] = useState(0)
   const toaster = useRef()
@@ -198,6 +199,8 @@ const ProductList = () => {
           setVisible={setVisible}
           onSubmit={onSaveProduct}
           productInput={productInput}
+          setSizesProduct={setSizesProduct}
+          sizesProduct={sizesProduct}
         />
       </CModal>
 

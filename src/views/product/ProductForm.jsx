@@ -11,8 +11,17 @@ import {
   CButton,
 } from '@coreui/react'
 import PropTypes from 'prop-types'
+import ProductSize from './sizes/ProductSize'
 
-function ProductForm({ handleProductInput, categories, setVisible, onSubmit, productInput }) {
+function ProductForm({
+  handleProductInput,
+  categories,
+  setVisible,
+  onSubmit,
+  productInput,
+  setSizesProduct,
+  sizesProduct,
+}) {
   return (
     <CForm onSubmit={onSubmit} autoComplete="off">
       <CModalBody>
@@ -100,6 +109,9 @@ function ProductForm({ handleProductInput, categories, setVisible, onSubmit, pro
               onChange={handleProductInput}
             ></CFormTextarea>
           </CCol>
+          <CCol>
+            <ProductSize setSizesProduct={setSizesProduct} sizesProduct={sizesProduct} />
+          </CCol>
         </CRow>
       </CModalBody>
       <CModalFooter>
@@ -119,6 +131,8 @@ ProductForm.propTypes = {
   setVisible: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   productInput: PropTypes.object.isRequired,
+  setSizesProduct: PropTypes.func,
+  sizesProduct: PropTypes.array,
 }
 
 export default ProductForm
