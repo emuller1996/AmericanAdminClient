@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CForm,
   CFormInput,
@@ -12,18 +12,52 @@ import {
 } from '@coreui/react'
 import PropTypes from 'prop-types'
 import ProductSize from './sizes/ProductSize'
+import axios from 'axios'
 
-function ProductForm({
-  handleProductInput,
-  categories,
-  setVisible,
-  onSubmit,
-  productInput,
-  setSizesProduct,
-  sizesProduct,
-}) {
+function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesProduct }) {
+  const [productInput, setProductInput] = useState({
+    name: '',
+  })
+
+  const handleProductInput = (e) => {
+    setProductInput({
+      ...productInput,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const onSaveProduct = async (e) => {
+    e.preventDefault()
+    console.log('onSaveProduct')
+    productInput.CategoryId = parseInt(productInput.CategoryId)
+    productInput.price = parseInt(productInput.price)
+    productInput.stock = parseInt(productInput.stock)
+
+    console.log(productInput)
+    const token = localStorage.getItem('token')
+
+    try {
+      const result = await axios.post('/products', productInput, {
+        headers: { 'access-token': token },
+      })
+      console.log(result.data)
+      setProductInput({})
+      /* addToast(
+        createProductToast({
+          option: {
+            title: 'Producto Registrado',
+            body: ' El producto se ha resgistrado correctamente a la base de datos.',
+          },
+        }),
+      ) */
+      setVisible(false)
+      /* getAllProducts() */
+    } catch (error) {
+      console.log(error.response.data.message)
+    }
+  }
   return (
-    <CForm onSubmit={onSubmit} autoComplete="off">
+    <CForm onSubmit={onSaveProduct} autoComplete="off">
       <CModalBody>
         <CRow xs={{ gutterY: 3 }}>
           <CCol md={6}>
@@ -126,11 +160,9 @@ function ProductForm({
   )
 }
 ProductForm.propTypes = {
-  handleProductInput: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   setVisible: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  productInput: PropTypes.object.isRequired,
   setSizesProduct: PropTypes.func,
   sizesProduct: PropTypes.array,
 }
