@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CForm,
   CFormInput,
@@ -11,19 +11,60 @@ import {
   CButton,
 } from '@coreui/react'
 import PropTypes from 'prop-types'
-import ProductSize from './sizes/ProductSize'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
-function ProductForm({
-  handleProductInput,
-  categories,
-  setVisible,
-  onSubmit,
-  productInput,
-  setSizesProduct,
-  sizesProduct,
-}) {
+function ProductForm({ categories, setVisible, producto, getAllProducts }) {
+  const [productInput, setProductInput] = useState({})
+
+  const handleProductInput = (e) => {
+    setProductInput({
+      ...productInput,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const onSaveProduct = async (e) => {
+    e.preventDefault()
+
+    console.log(productInput)
+    const token = localStorage.getItem('token')
+
+    if (producto) {
+      console.log('EDITAR')
+      productInput.id = producto.id
+      try {
+        const result = await axios.put('/products', productInput, {
+          headers: { 'access-token': token },
+        })
+        console.log(result.data)
+        setProductInput({})
+        setVisible(false)
+        toast.success(result.data.message)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      productInput.CategoryId = parseInt(productInput.CategoryId)
+      productInput.price = parseInt(productInput.price)
+      productInput.stock = parseInt(productInput.stock)
+      console.log('onSaveProduct')
+      try {
+        const result = await axios.post('/products', productInput, {
+          headers: { 'access-token': token },
+        })
+        console.log(result.data)
+        setProductInput({})
+        setVisible(false)
+        toast.success(result.data.message)
+      } catch (error) {
+        console.log(error.response.data.message)
+      }
+    }
+    getAllProducts()
+  }
   return (
-    <CForm onSubmit={onSubmit} autoComplete="off">
+    <CForm onSubmit={onSaveProduct} autoComplete="off">
       <CModalBody>
         <CRow xs={{ gutterY: 3 }}>
           <CCol md={6}>
@@ -33,6 +74,7 @@ function ProductForm({
               label="Nombre"
               placeholder=""
               name="name"
+              defaultValue={producto && producto.name}
               value={productInput.name}
               onChange={handleProductInput}
             />
@@ -45,10 +87,11 @@ function ProductForm({
               placeholder=""
               name="price"
               value={productInput.price}
+              defaultValue={producto && producto.price}
               onChange={handleProductInput}
             />
           </CCol>
-          <CCol xl={2} md={3}>
+          {/* <CCol xl={2} md={3}>
             <CFormInput
               type="number"
               id="stock"
@@ -58,7 +101,7 @@ function ProductForm({
               value={productInput.stock}
               onChange={handleProductInput}
             />
-          </CCol>
+          </CCol> */}
           <CCol md={6}>
             <CFormInput
               type="text"
@@ -67,6 +110,7 @@ function ProductForm({
               placeholder=""
               name="brand"
               value={productInput.brand}
+              defaultValue={producto && producto.brand}
               onChange={handleProductInput}
             />
           </CCol>
@@ -77,6 +121,7 @@ function ProductForm({
               id="CategoryId"
               name="CategoryId"
               value={productInput.CategoryId}
+              defaultValue={producto && producto.CategoryId}
               onChange={handleProductInput}
               type="number"
             >
@@ -97,6 +142,7 @@ function ProductForm({
               name="image"
               value={productInput.image}
               onChange={handleProductInput}
+              defaultValue={producto && producto.image}
             />
           </CCol>
           <CCol md={12}>
@@ -106,11 +152,9 @@ function ProductForm({
               rows={3}
               name="description"
               value={productInput.description}
+              defaultValue={producto && producto.description}
               onChange={handleProductInput}
             ></CFormTextarea>
-          </CCol>
-          <CCol>
-            <ProductSize setSizesProduct={setSizesProduct} sizesProduct={sizesProduct} />
           </CCol>
         </CRow>
       </CModalBody>
@@ -118,21 +162,23 @@ function ProductForm({
         <CButton color="secondary" onClick={() => setVisible(false)}>
           Close
         </CButton>
-        <CButton type="submit" color="primary">
-          Save changes
+        <CButton
+          disabled={Object.keys(productInput).length === 0 ? true : false}
+          type="submit"
+          color="primary"
+        >
+          GUARDAR
         </CButton>
       </CModalFooter>
     </CForm>
   )
 }
 ProductForm.propTypes = {
-  handleProductInput: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
-  setVisible: PropTypes.func.isRequired,
+  setVisible: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  productInput: PropTypes.object.isRequired,
-  setSizesProduct: PropTypes.func,
-  sizesProduct: PropTypes.array,
+  getAllProducts: PropTypes.func.isRequired,
+  producto: PropTypes.object,
 }
 
 export default ProductForm

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { async } from 'regenerator-runtime'
 
 const SizeComponent = () => {
   const [sizeInput, setSizeInput] = useState('')
@@ -21,7 +20,6 @@ const SizeComponent = () => {
         },
       )
       console.log(result.data)
-      alert(result.data.message)
       setSizeInput('')
       getAllSize()
     } catch (error) {}
