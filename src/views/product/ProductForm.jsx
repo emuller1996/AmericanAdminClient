@@ -11,13 +11,11 @@ import {
   CButton,
 } from '@coreui/react'
 import PropTypes from 'prop-types'
-import ProductSize from './sizes/ProductSize'
 import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
-function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesProduct }) {
-  const [productInput, setProductInput] = useState({
-    name: '',
-  })
+function ProductForm({ categories, setVisible, producto, getAllProducts }) {
+  const [productInput, setProductInput] = useState({})
 
   const handleProductInput = (e) => {
     setProductInput({
@@ -28,33 +26,42 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
 
   const onSaveProduct = async (e) => {
     e.preventDefault()
-    console.log('onSaveProduct')
-    productInput.CategoryId = parseInt(productInput.CategoryId)
-    productInput.price = parseInt(productInput.price)
-    productInput.stock = parseInt(productInput.stock)
 
     console.log(productInput)
     const token = localStorage.getItem('token')
 
-    try {
-      const result = await axios.post('/products', productInput, {
-        headers: { 'access-token': token },
-      })
-      console.log(result.data)
-      setProductInput({})
-      /* addToast(
-        createProductToast({
-          option: {
-            title: 'Producto Registrado',
-            body: ' El producto se ha resgistrado correctamente a la base de datos.',
-          },
-        }),
-      ) */
-      setVisible(false)
-      /* getAllProducts() */
-    } catch (error) {
-      console.log(error.response.data.message)
+    if (producto) {
+      console.log('EDITAR')
+      productInput.id = producto.id
+      try {
+        const result = await axios.put('/products', productInput, {
+          headers: { 'access-token': token },
+        })
+        console.log(result.data)
+        setProductInput({})
+        setVisible(false)
+        toast.success(result.data.message)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      productInput.CategoryId = parseInt(productInput.CategoryId)
+      productInput.price = parseInt(productInput.price)
+      productInput.stock = parseInt(productInput.stock)
+      console.log('onSaveProduct')
+      try {
+        const result = await axios.post('/products', productInput, {
+          headers: { 'access-token': token },
+        })
+        console.log(result.data)
+        setProductInput({})
+        setVisible(false)
+        toast.success(result.data.message)
+      } catch (error) {
+        console.log(error.response.data.message)
+      }
     }
+    getAllProducts()
   }
   return (
     <CForm onSubmit={onSaveProduct} autoComplete="off">
@@ -67,6 +74,7 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               label="Nombre"
               placeholder=""
               name="name"
+              defaultValue={producto && producto.name}
               value={productInput.name}
               onChange={handleProductInput}
             />
@@ -79,10 +87,11 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               placeholder=""
               name="price"
               value={productInput.price}
+              defaultValue={producto && producto.price}
               onChange={handleProductInput}
             />
           </CCol>
-          <CCol xl={2} md={3}>
+          {/* <CCol xl={2} md={3}>
             <CFormInput
               type="number"
               id="stock"
@@ -92,7 +101,7 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               value={productInput.stock}
               onChange={handleProductInput}
             />
-          </CCol>
+          </CCol> */}
           <CCol md={6}>
             <CFormInput
               type="text"
@@ -101,6 +110,7 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               placeholder=""
               name="brand"
               value={productInput.brand}
+              defaultValue={producto && producto.brand}
               onChange={handleProductInput}
             />
           </CCol>
@@ -111,6 +121,7 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               id="CategoryId"
               name="CategoryId"
               value={productInput.CategoryId}
+              defaultValue={producto && producto.CategoryId}
               onChange={handleProductInput}
               type="number"
             >
@@ -131,6 +142,7 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               name="image"
               value={productInput.image}
               onChange={handleProductInput}
+              defaultValue={producto && producto.image}
             />
           </CCol>
           <CCol md={12}>
@@ -140,11 +152,9 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
               rows={3}
               name="description"
               value={productInput.description}
+              defaultValue={producto && producto.description}
               onChange={handleProductInput}
             ></CFormTextarea>
-          </CCol>
-          <CCol>
-            <ProductSize setSizesProduct={setSizesProduct} sizesProduct={sizesProduct} />
           </CCol>
         </CRow>
       </CModalBody>
@@ -152,8 +162,12 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
         <CButton color="secondary" onClick={() => setVisible(false)}>
           Close
         </CButton>
-        <CButton type="submit" color="primary">
-          Save changes
+        <CButton
+          disabled={Object.keys(productInput).length === 0 ? true : false}
+          type="submit"
+          color="primary"
+        >
+          GUARDAR
         </CButton>
       </CModalFooter>
     </CForm>
@@ -161,10 +175,10 @@ function ProductForm({ categories, setVisible, onSubmit, setSizesProduct, sizesP
 }
 ProductForm.propTypes = {
   categories: PropTypes.array.isRequired,
-  setVisible: PropTypes.func.isRequired,
+  setVisible: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  setSizesProduct: PropTypes.func,
-  sizesProduct: PropTypes.array,
+  getAllProducts: PropTypes.func.isRequired,
+  producto: PropTypes.object,
 }
 
 export default ProductForm

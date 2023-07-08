@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "test:cov": "npm test -- --coverage --watchAll=false",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "deploy" : "aws s3 sync build/ s3://american-shop-admin --acl public-read"
+    "deploy": "aws s3 sync build/ s3://american-shop-admin --acl public-read"
   },
   "dependencies": {
     "@coreui/chartjs": "^3.1.1",
@@ -38,6 +38,7 @@
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "redux": "4.2.1",

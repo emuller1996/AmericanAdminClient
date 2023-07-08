@@ -20,13 +20,14 @@ const AppSidebar = () => {
   return (
     <CSidebar
       position="fixed"
+      className="bg-primario"
       unfoldable={unfoldable}
       visible={sidebarShow}
       onVisibleChange={(visible) => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/">
+      <CSidebarBrand className="text-rojo fw-semibold d-none d-md-flex" to="/">
         AMERICA SHOP ADMIN
       </CSidebarBrand>
       <CSidebarNav>

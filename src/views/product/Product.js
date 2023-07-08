@@ -1,18 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { CButton, CModal, CModalHeader, CModalTitle } from '@coreui/react'
+import { CButton, CModal, CModalBody, CModalHeader, CModalTitle } from '@coreui/react'
 import ProductTable from './ProductTable'
 import axios from 'axios'
 import ProductForm from './ProductForm'
 import { Link } from 'react-router-dom'
 import { getAllProductsService } from 'src/services/product.services'
+import ProductSize from './sizes/ProductSize'
 
 const ProductList = () => {
   const [productsAll, setProductsAll] = useState([])
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
+  const [visibleModalTallas, setVisibleModalTallas] = useState(false)
 
   const [sizesProduct, setSizesProduct] = useState([])
   const [categories, setCategories] = useState([])
+  const [productoSelecionadoEditar, setProductoSelecionadoEditar] = useState(undefined)
 
   useEffect(() => {
     getAllProducts()
@@ -35,49 +38,10 @@ const ProductList = () => {
     }
   }
 
-  //GUARDAR PRODUCTO
-
-  /* const onEditProduct = async (e) => {
-    e.preventDefault()
-    console.log('onEditProduct')
-    productInput.CategoryId = parseInt(productInput.CategoryId)
-    productInput.price = parseInt(productInput.price)
-    productInput.stock = parseInt(productInput.stock)
-    console.log(productInput)
-    const token = localStorage.getItem('token')
-
-    try {
-      const result = await axios.put('/products', productInput, {
-        headers: { 'access-token': token },
-      })
-      console.log(result.data)
-      setProductInput({})
-      addToast(
-        createProductToast({
-          option: {
-            title: 'Producto Actualizado',
-            body: ' El producto se ha actualizado correctamente a la base de datos.',
-          },
-        }),
-      )
-      setVisible2(false)
-      getAllProducts()
-    } catch (error) {
-      console.log(error)
-      addToast(
-        createProductToast({
-          option: {
-            title: error.response.data.message,
-            body: error.message,
-          },
-        }),
-      )
-    }
-  } */
-
-  const onSetEditInput = (e) => {
+  const onShowModalTallas = (e, pro) => {
     /* setProductInput(e) */
-    setVisible2(true)
+    setVisibleModalTallas(true)
+    setProductoSelecionadoEditar(pro)
   }
 
   return (
@@ -119,7 +83,12 @@ const ProductList = () => {
         Categorias
       </Link> */}
 
-      <ProductTable products={productsAll && productsAll} setProductInput={onSetEditInput} />
+      <ProductTable
+        products={productsAll && productsAll}
+        setProductoSelecionadoEditar={setProductoSelecionadoEditar}
+        setVisible2={setVisible2}
+        setVisibleModalTallas={setVisibleModalTallas}
+      />
 
       {/* MODAL CREAR */}
       <CModal size="lg" visible={visible} onClose={() => setVisible(false)}>
@@ -129,8 +98,7 @@ const ProductList = () => {
         <ProductForm
           categories={categories}
           setVisible={setVisible}
-          setSizesProduct={setSizesProduct}
-          sizesProduct={sizesProduct}
+          getAllProducts={getAllProducts}
         />
       </CModal>
 
@@ -139,8 +107,23 @@ const ProductList = () => {
         <CModalHeader onClose={() => setVisible2(false)}>
           <CModalTitle>ACTUALIZAR PRODUCTO</CModalTitle>
         </CModalHeader>
-        {/* 
-        <ProductForm categories={categories} setVisible={setVisible2} onSubmit={onEditProduct} /> */}
+
+        <ProductForm
+          categories={categories}
+          setVisible={setVisible2} /* onSubmit={onEditProduct} */
+          producto={productoSelecionadoEditar}
+          getAllProducts={getAllProducts}
+        />
+      </CModal>
+
+      {/* MODAL TALLAS */}
+      <CModal size="lg" visible={visibleModalTallas} onClose={() => setVisibleModalTallas(false)}>
+        <CModalHeader onClose={() => setVisibleModalTallas(false)}>
+          <CModalTitle>TALLAS</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <ProductSize productoSelecionadoEditar={productoSelecionadoEditar} />
+        </CModalBody>
       </CModal>
     </div>
   )

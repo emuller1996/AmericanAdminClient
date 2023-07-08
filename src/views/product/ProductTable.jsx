@@ -9,7 +9,12 @@ import {
   CTableBody,
 } from '@coreui/react'
 
-const ProductTable = ({ products, setProductInput }) => {
+const ProductTable = ({
+  products,
+  setProductoSelecionadoEditar,
+  setVisible2,
+  setVisibleModalTallas,
+}) => {
   return (
     <CTable>
       <CTableHead>
@@ -35,10 +40,23 @@ const ProductTable = ({ products, setProductInput }) => {
                   type="button"
                   className="btn btn-sm btn-info text-white rounded-3"
                   onClick={() => {
-                    setProductInput(p)
+                    setVisible2(true)
+                    console.log(p)
+                    setProductoSelecionadoEditar(p)
                   }}
                 >
                   Editar
+                </button>
+                <button
+                  type="button"
+                  className="ms-1 btn btn-sm btn-warning text-white rounded-3"
+                  onClick={() => {
+                    console.log('modal de tallas')
+                    setVisibleModalTallas(true)
+                    setProductoSelecionadoEditar(p)
+                  }}
+                >
+                  Tallas
                 </button>
               </CTableDataCell>
             </CTableRow>
@@ -50,7 +68,9 @@ const ProductTable = ({ products, setProductInput }) => {
 
 ProductTable.propTypes = {
   products: PropTypes.arrayOf(PropTypes.any).isRequired,
-  setProductInput: PropTypes.func.isRequired,
+  setProductoSelecionadoEditar: PropTypes.func.isRequired,
+  setVisible2: PropTypes.func.isRequired,
+  setVisibleModalTallas: PropTypes.func,
 }
 
 export default ProductTable

@@ -20,7 +20,6 @@ const SizeComponent = () => {
         },
       )
       console.log(result.data)
-      alert(result.data.message)
       setSizeInput('')
       getAllSize()
     } catch (error) {}

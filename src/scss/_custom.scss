@@ -1,8 +1,23 @@
 // Here you can add other styles
-*{
-  font-family: 'Nunito','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+@import url('https://fonts.cdnfonts.com/css/nunito');
+* {
+  font-family: 'Nunito', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+    Arial, sans-serif;
 }
 
-.btn{
+:root{
+  
+}
+
+
+.btn {
   font-weight: 500 !important;
+}
+
+.bg-primario {
+  background-color: #292c37;
+}
+
+.text-rojo {
+  color: #b11623;
 }
