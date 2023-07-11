@@ -1,32 +1,55 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './ProductSize.scss'
-// eslint-disable-next-line react/prop-types
-const ProductSize = ({ setSizesProduct, sizesProduct }) => {
+import { createSizeProductsService, getAllSizeProductsService } from 'src/services/product.services'
+import PropTypes from 'prop-types'
+import { toast } from 'react-hot-toast'
+
+const ProductSize = ({ productoSelecionadoEditar }) => {
   const [sizeAll, setSizeAll] = useState(undefined)
   const [sizeSelecionado, setsizeSelecionado] = useState(undefined)
+  const [sizeProduct, setSizeProduct] = useState(undefined)
+  const [cantidad, setCantidad] = useState(undefined)
 
   useEffect(() => {
     getAllSizes()
-  }, [])
+    getAllSizesByProduct(productoSelecionadoEditar.id)
+  }, [productoSelecionadoEditar])
 
   const getAllSizes = async () => {
     try {
       const result = await axios.get('/sizes')
-      console.log(result.data.sizes)
       setSizeAll(result.data.sizes)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const handleSize = (e) => {
-    /* console.log(e.target.name)
-    setSizesProduct([ 
-      {
-        [e.target.name]: e.target.value,
-      },
-    ]) */
+  const getAllSizesByProduct = async (id) => {
+    try {
+      const result = await getAllSizeProductsService(id)
+      console.log(result.data)
+      console.log()
+      setSizeProduct(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSize = async (e) => {
+    try {
+      const result = await createSizeProductsService(productoSelecionadoEditar.id, {
+        SizeId: sizeSelecionado,
+        quantity: cantidad,
+        ProductId: productoSelecionadoEditar.id,
+      })
+      getAllSizesByProduct(productoSelecionadoEditar.id)
+      toast.success(result.data.message)
+      setCantidad('')
+      setsizeSelecionado(undefined)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -34,24 +57,41 @@ const ProductSize = ({ setSizesProduct, sizesProduct }) => {
       <h4 className="text-start text-white">Tallas</h4>
 
       <div className="row g-2">
-        <div className="col-6">
+        <div className="col-md-6">
           <div className="input-group mb-3">
             <input
               disabled={!sizeSelecionado}
               type="text"
               className="form-control p-2"
               placeholder="8"
+              value={cantidad}
+              onChange={(e) => {
+                setCantidad(e.target.value)
+              }}
             />
-            <button className="btn btn-size-save text-white fw-bold" type="button">
+            <button
+              onClick={handleSize}
+              className="btn btn-size-save text-white fw-bold"
+              type="button"
+            >
               Agregar
             </button>
           </div>
+          {sizeProduct &&
+            sizeProduct.map((s) => (
+              <div className="card mt-2" key={s.id}>
+                <div className="card-body">
+                  {` Talla :${s.Size.size} -  Cantidad : ${s.quantity}`}
+                  <button className="btn btn-info">Editar</button>
+                </div>
+              </div>
+            ))}
         </div>
-        <div className="col-6">
+        <div className="col-md-6">
           <div className="row g-3">
             {sizeAll &&
               sizeAll.map((s) => (
-                <div key={s.size} className="col-4 col-md-4 col-xl-3  mb-2">
+                <div key={s.size} className="col-4 col-md-4 col-xl-3">
                   <div className={sizeSelecionado === s.id ? 'card_size_selected ' : 'card_size '}>
                     <label
                       htmlFor={s.hour}
@@ -62,6 +102,7 @@ const ProductSize = ({ setSizesProduct, sizesProduct }) => {
                         name="hour"
                         value={s.id}
                         id={s.id}
+                        disabled={sizeProduct && sizeProduct.map((s) => s.SizeId).includes(s.id)}
                         hidden
                         onClick={(e) => {
                           setsizeSelecionado(parseInt(e.target.value))
@@ -77,5 +118,9 @@ const ProductSize = ({ setSizesProduct, sizesProduct }) => {
       </div>
     </div>
   )
+}
+
+ProductSize.propTypes = {
+  productoSelecionadoEditar: PropTypes.object,
 }
 export default ProductSize
