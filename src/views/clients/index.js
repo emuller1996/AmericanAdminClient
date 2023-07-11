@@ -13,8 +13,7 @@ const ClientCompoent = () => {
   }, [])
 
   const getAllUser = async () => {
-    const result = await axios.get('http://localhost:3001/user')
-    console.log(result.data)
+    const result = await axios.get('/user')
     setClientes(result.data.users)
   }
 
