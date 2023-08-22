@@ -122,7 +122,10 @@ const ProductList = () => {
           <CModalTitle>TALLAS</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <ProductSize productoSelecionadoEditar={productoSelecionadoEditar} />
+          <ProductSize
+            getAllProducts={getAllProducts}
+            productoSelecionadoEditar={productoSelecionadoEditar}
+          />
         </CModalBody>
       </CModal>
     </div>
