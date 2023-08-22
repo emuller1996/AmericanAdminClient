@@ -5,7 +5,7 @@ import { createSizeProductsService, getAllSizeProductsService } from 'src/servic
 import PropTypes from 'prop-types'
 import { toast } from 'react-hot-toast'
 
-const ProductSize = ({ productoSelecionadoEditar }) => {
+const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
   const [sizeAll, setSizeAll] = useState(undefined)
   const [sizeSelecionado, setsizeSelecionado] = useState(undefined)
   const [sizeProduct, setSizeProduct] = useState(undefined)
@@ -47,6 +47,7 @@ const ProductSize = ({ productoSelecionadoEditar }) => {
       toast.success(result.data.message)
       setCantidad('')
       setsizeSelecionado(undefined)
+      getAllProducts()
     } catch (error) {
       console.log(error)
     }
@@ -94,16 +95,15 @@ const ProductSize = ({ productoSelecionadoEditar }) => {
                 <div key={s.size} className="col-4 col-md-4 col-xl-3">
                   <div className={sizeSelecionado === s.id ? 'card_size_selected ' : 'card_size '}>
                     <label
-                      htmlFor={s.hour}
+                      htmlFor={s.id}
                       className="text-center  fw-bold text-white w-100 h-100 m-0 p-2"
                     >
                       <input
                         type="radio"
-                        name="hour"
+                        name={s.id}
                         value={s.id}
                         id={s.id}
                         disabled={sizeProduct && sizeProduct.map((s) => s.SizeId).includes(s.id)}
-                        hidden
                         onClick={(e) => {
                           setsizeSelecionado(parseInt(e.target.value))
                         }}
@@ -122,5 +122,6 @@ const ProductSize = ({ productoSelecionadoEditar }) => {
 
 ProductSize.propTypes = {
   productoSelecionadoEditar: PropTypes.object,
+  getAllProducts: PropTypes.func,
 }
 export default ProductSize
