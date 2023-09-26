@@ -43,6 +43,9 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
         toast.success(result.data.message)
       } catch (error) {
         console.log(error)
+        if (error.response.status > 400) {
+          toast.error(error.response.data.message)
+        }
       }
     } else {
       productInput.CategoryId = parseInt(productInput.CategoryId)
@@ -59,6 +62,9 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
         toast.success(result.data.message)
       } catch (error) {
         console.log(error.response.data.message)
+        if (error.response.status > 400) {
+          toast.error(error.response.data.message)
+        }
       }
     }
     getAllProducts()

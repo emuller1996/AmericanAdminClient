@@ -16,48 +16,64 @@ const ProductTable = ({
   setVisibleModalTallas,
 }) => {
   return (
-    <CTable>
+    <CTable responsive="md">
       <CTableHead>
         <CTableRow>
-          <CTableHeaderCell scope="col">#</CTableHeaderCell>
           <CTableHeaderCell scope="col">Nombre</CTableHeaderCell>
           <CTableHeaderCell scope="col">Existencia</CTableHeaderCell>
           <CTableHeaderCell scope="col">Precio</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Categoria</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Marca</CTableHeaderCell>
+          <CTableHeaderCell scope="col"></CTableHeaderCell>
         </CTableRow>
       </CTableHead>
       <CTableBody>
         {products &&
           products.map((p) => (
             <CTableRow key={p.id}>
-              <CTableHeaderCell scope="row">{p.id}</CTableHeaderCell>
               <CTableDataCell>{p.name}</CTableDataCell>
               <CTableDataCell>{p.stock}</CTableDataCell>
               <CTableDataCell>
                 {p.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </CTableDataCell>
+              <CTableDataCell>{p.Category.name}</CTableDataCell>
+              <CTableDataCell>{p.brand}</CTableDataCell>
               <CTableDataCell>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-info text-white rounded-3"
-                  onClick={() => {
-                    setVisible2(true)
-                    console.log(p)
-                    setProductoSelecionadoEditar(p)
-                  }}
-                >
-                  Editar
-                </button>
-                <button
-                  type="button"
-                  className="ms-1 btn btn-sm btn-warning text-white rounded-3"
-                  onClick={() => {
-                    console.log('modal de tallas')
-                    setVisibleModalTallas(true)
-                    setProductoSelecionadoEditar(p)
-                  }}
-                >
-                  Tallas
-                </button>
+                <div className="d-flex">
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-info text-white rounded-3"
+                    onClick={() => {
+                      setVisible2(true)
+                      console.log(p)
+                      setProductoSelecionadoEditar(p)
+                    }}
+                  >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button
+                    type="button"
+                    title="Tallas"
+                    className="ms-1 btn btn-sm btn-warning text-white rounded-3"
+                    onClick={() => {
+                      console.log('modal de tallas')
+                      setVisibleModalTallas(true)
+                      setProductoSelecionadoEditar(p)
+                    }}
+                  >
+                    <i className="fa-solid fa-tag"></i>
+                  </button>
+                  <button
+                    type="button"
+                    title="Imagenes"
+                    className="ms-1 btn btn-sm btn-dark text-white rounded-3"
+                    onClick={() => {
+                      console.log('modal de Imagenes')
+                    }}
+                  >
+                    <i className="fa-solid fa-images"></i>
+                  </button>
+                </div>
               </CTableDataCell>
             </CTableRow>
           ))}

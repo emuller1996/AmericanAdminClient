@@ -5,8 +5,10 @@ export const getAllProductsService = async () => {
   return result.data.products
 }
 
-export const createSizeProductsService = async (productoId, data) => {
-  return await axios.post(`/products/${productoId}/size`, data)
+export const createSizeProductsService = async (productoId, data,token) => {
+  return await axios.post(`/products/${productoId}/size`, data,{
+    headers: { 'access-token': token }
+  })
 }
 
 export const getAllSizeProductsService = async (id) => {

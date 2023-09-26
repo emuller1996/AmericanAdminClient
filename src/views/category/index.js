@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CategoryList from './CategoryList'
 import { CContainer, CRow, CCol, CModal, CModalHeader, CModalTitle } from '@coreui/react'
 import CategoryForm from './CategoryForm'
+import toast from 'react-hot-toast'
 
 const CategoryComponent = () => {
   const [categories, setCategories] = useState([])
@@ -51,7 +52,9 @@ const CategoryComponent = () => {
       setVisible(false)
       getAllCategories()
     } catch (error) {
-      alert(error.message)
+      if (error.response.status > 400) {
+        toast.error(error.response.data.message)
+      }
     }
   }
 
@@ -68,7 +71,11 @@ const CategoryComponent = () => {
       setCategoryInput({})
       setVisibleEdit(false)
       getAllCategories()
-    } catch (error) {}
+    } catch (error) {
+      if (error.response.status > 400) {
+        toast.error(error.response.data.message)
+      }
+    }
   }
 
   return (

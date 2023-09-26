@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 
 const SizeComponent = () => {
   const [sizeInput, setSizeInput] = useState('')
@@ -22,7 +23,11 @@ const SizeComponent = () => {
       console.log(result.data)
       setSizeInput('')
       getAllSize()
-    } catch (error) {}
+    } catch (error) {
+      if (error.response.status > 400) {
+        toast.error(error.response.data.message)
+      }
+    }
   }
 
   const getAllSize = async () => {
@@ -50,7 +55,7 @@ const SizeComponent = () => {
               />
               <label htmlFor="formId1">Talla</label>
               <button onClick={onSaveSize} type="button" className="ms-3 btn btn-primary">
-                GARDAR
+                Guardar
               </button>
             </div>
           </div>

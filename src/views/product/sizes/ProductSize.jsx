@@ -38,25 +38,32 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
 
   const handleSize = async (e) => {
     try {
-      const result = await createSizeProductsService(productoSelecionadoEditar.id, {
-        SizeId: sizeSelecionado,
-        quantity: cantidad,
-        ProductId: productoSelecionadoEditar.id,
-      })
+      const token = localStorage.getItem('token')
+
+      const result = await createSizeProductsService(
+        productoSelecionadoEditar.id,
+        {
+          SizeId: sizeSelecionado,
+          quantity: cantidad,
+          ProductId: productoSelecionadoEditar.id,
+        },
+        token,
+      )
       getAllSizesByProduct(productoSelecionadoEditar.id)
       toast.success(result.data.message)
       setCantidad('')
       setsizeSelecionado(undefined)
       getAllProducts()
     } catch (error) {
-      console.log(error)
+      console.log(error.response.status)
+      if (error.response.status > 400) {
+        toast.error(error.response.data.message)
+      }
     }
   }
 
   return (
-    <div className="container_size p-4">
-      <h4 className="text-start text-white">Tallas</h4>
-
+    <div className="p-4">
       <div className="row g-2">
         <div className="col-md-6">
           <div className="input-group mb-3">
@@ -70,11 +77,7 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
                 setCantidad(e.target.value)
               }}
             />
-            <button
-              onClick={handleSize}
-              className="btn btn-size-save text-white fw-bold"
-              type="button"
-            >
+            <button onClick={handleSize} className="btn btn-success fw-bold" type="button">
               Agregar
             </button>
           </div>
@@ -93,14 +96,17 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
             {sizeAll &&
               sizeAll.map((s) => (
                 <div key={s.size} className="col-4 col-md-4 col-xl-3">
-                  <div className={sizeSelecionado === s.id ? 'card_size_selected ' : 'card_size '}>
-                    <label
-                      htmlFor={s.id}
-                      className="text-center  fw-bold text-white w-100 h-100 m-0 p-2"
-                    >
+                  <div
+                    className={
+                      sizeSelecionado === s.id
+                        ? 'rounded-2 border border-secondary '
+                        : ' rounded-2 border'
+                    }
+                  >
+                    <label htmlFor={s.id} className="text-center fw-bold w-100 h-100 m-0 p-2">
                       <input
                         type="radio"
-                        name={s.id}
+                        name="sizes"
                         value={s.id}
                         id={s.id}
                         disabled={sizeProduct && sizeProduct.map((s) => s.SizeId).includes(s.id)}

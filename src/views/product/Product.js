@@ -46,7 +46,7 @@ const ProductList = () => {
 
   return (
     <div className="container">
-      <div className="d-flex justify-content-center align-items-center g-2">
+      <div className="d-flex justify-content-center align-items-center g-2 mb-2">
         <div className="w-100">
           <CButton
             className="rounded-3"
@@ -68,9 +68,10 @@ const ProductList = () => {
           </Link>
 
           <Link
-            className="ms-2 btn btn-warning text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
+            className="d-flex align-items-center ms-2 btn btn-warning text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
             to={'/productos/tallas'}
           >
+            <i className="fa-solid fa-tag me-2"></i>
             Tallas
           </Link>
         </div>
