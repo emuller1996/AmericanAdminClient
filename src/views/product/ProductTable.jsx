@@ -14,6 +14,7 @@ const ProductTable = ({
   setProductoSelecionadoEditar,
   setVisible2,
   setVisibleModalTallas,
+  setVisibleModalImages,
 }) => {
   return (
     <CTable responsive="md">
@@ -68,7 +69,8 @@ const ProductTable = ({
                     title="Imagenes"
                     className="ms-1 btn btn-sm btn-dark text-white rounded-3"
                     onClick={() => {
-                      console.log('modal de Imagenes')
+                      setVisibleModalImages(true)
+                      setProductoSelecionadoEditar(p)
                     }}
                   >
                     <i className="fa-solid fa-images"></i>
@@ -87,6 +89,7 @@ ProductTable.propTypes = {
   setProductoSelecionadoEditar: PropTypes.func.isRequired,
   setVisible2: PropTypes.func.isRequired,
   setVisibleModalTallas: PropTypes.func,
+  setVisibleModalImages: PropTypes.func,
 }
 
 export default ProductTable

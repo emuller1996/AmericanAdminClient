@@ -6,12 +6,14 @@ import ProductForm from './ProductForm'
 import { Link } from 'react-router-dom'
 import { getAllProductsService } from 'src/services/product.services'
 import ProductSize from './sizes/ProductSize'
+import ImagesProduct from './images/ImagesProduct'
 
 const ProductList = () => {
   const [productsAll, setProductsAll] = useState([])
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
   const [visibleModalTallas, setVisibleModalTallas] = useState(false)
+  const [visibleModalImages, setVisibleModalImages] = useState(false)
 
   const [sizesProduct, setSizesProduct] = useState([])
   const [categories, setCategories] = useState([])
@@ -89,10 +91,17 @@ const ProductList = () => {
         setProductoSelecionadoEditar={setProductoSelecionadoEditar}
         setVisible2={setVisible2}
         setVisibleModalTallas={setVisibleModalTallas}
+        setVisibleModalImages={setVisibleModalImages}
       />
 
       {/* MODAL CREAR */}
-      <CModal size="lg" visible={visible} onClose={() => setVisible(false)}>
+      <CModal
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
         <CModalHeader onClose={() => setVisible(false)}>
           <CModalTitle>CREAR PRODUCTO</CModalTitle>
         </CModalHeader>
@@ -104,7 +113,13 @@ const ProductList = () => {
       </CModal>
 
       {/* MODAL ACTUALIZAR */}
-      <CModal size="lg" visible={visible2} onClose={() => setVisible2(false)}>
+      <CModal
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        visible={visible2}
+        onClose={() => setVisible2(false)}
+      >
         <CModalHeader onClose={() => setVisible2(false)}>
           <CModalTitle>ACTUALIZAR PRODUCTO</CModalTitle>
         </CModalHeader>
@@ -127,6 +142,16 @@ const ProductList = () => {
             getAllProducts={getAllProducts}
             productoSelecionadoEditar={productoSelecionadoEditar}
           />
+        </CModalBody>
+      </CModal>
+
+      {/* MODAL Imagenes */}
+      <CModal size="lg" visible={visibleModalImages} onClose={() => setVisibleModalImages(false)}>
+        <CModalHeader onClose={() => setVisibleModalImages(false)}>
+          <CModalTitle>Imagenes</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <ImagesProduct productoSelecionadoEditar={productoSelecionadoEditar} />
         </CModalBody>
       </CModal>
     </div>
