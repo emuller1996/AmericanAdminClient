@@ -133,7 +133,13 @@ const ProductList = () => {
       </CModal>
 
       {/* MODAL TALLAS */}
-      <CModal size="lg" visible={visibleModalTallas} onClose={() => setVisibleModalTallas(false)}>
+      <CModal
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        visible={visibleModalTallas}
+        onClose={() => setVisibleModalTallas(false)}
+      >
         <CModalHeader onClose={() => setVisibleModalTallas(false)}>
           <CModalTitle>TALLAS</CModalTitle>
         </CModalHeader>
@@ -146,7 +152,13 @@ const ProductList = () => {
       </CModal>
 
       {/* MODAL Imagenes */}
-      <CModal size="lg" visible={visibleModalImages} onClose={() => setVisibleModalImages(false)}>
+      <CModal
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        visible={visibleModalImages}
+        onClose={() => setVisibleModalImages(false)}
+      >
         <CModalHeader onClose={() => setVisibleModalImages(false)}>
           <CModalTitle>Imagenes</CModalTitle>
         </CModalHeader>
