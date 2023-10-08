@@ -5,9 +5,21 @@ export const getAllProductsService = async () => {
   return result.data.products
 }
 
-export const createSizeProductsService = async (productoId, data,token) => {
-  return await axios.post(`/products/${productoId}/size`, data,{
-    headers: { 'access-token': token }
+export const createSizeProductsService = async (productoId, data, token) => {
+  return await axios.post(`/products/${productoId}/size`, data, {
+    headers: { 'access-token': token },
+  })
+}
+
+export const UpdateSizeProductsService = async (data, token) => {
+  return await axios.put(`/sizes/${data.id}/`, data, {
+    headers: { 'access-token': token },
+  })
+}
+
+export const DeleteSizeProductsService = async (id, idProduct, token) => {
+  return await axios.delete(`/sizes/${id}/${idProduct}`, {
+    headers: { 'access-token': token },
   })
 }
 

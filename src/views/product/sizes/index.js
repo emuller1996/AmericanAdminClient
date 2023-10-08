@@ -12,21 +12,25 @@ const SizeComponent = () => {
 
   const onSaveSize = async () => {
     const token = localStorage.getItem('token')
-    try {
-      const result = await axios.post(
-        '/sizes',
-        { size: sizeInput },
-        {
-          headers: { 'access-token': token },
-        },
-      )
-      console.log(result.data)
-      setSizeInput('')
-      getAllSize()
-    } catch (error) {
-      if (error.response.status > 400) {
-        toast.error(error.response.data.message)
+    if (sizeInput !== '') {
+      try {
+        const result = await axios.post(
+          '/sizes',
+          { size: sizeInput },
+          {
+            headers: { 'access-token': token },
+          },
+        )
+        console.log(result.data)
+        setSizeInput('')
+        getAllSize()
+      } catch (error) {
+        if (error.response.status > 400) {
+          toast.error(error.response.data.message)
+        }
       }
+    } else {
+      toast.error('Talla es Requerida')
     }
   }
 
