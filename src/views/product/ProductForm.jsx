@@ -9,13 +9,14 @@ import {
   CModalBody,
   CModalFooter,
   CButton,
+  CFormSwitch,
 } from '@coreui/react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
 function ProductForm({ categories, setVisible, producto, getAllProducts }) {
-  const [productInput, setProductInput] = useState({})
+  const [productInput, setProductInput] = useState({ published: producto?.published })
 
   const handleProductInput = (e) => {
     setProductInput({
@@ -161,6 +162,20 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               defaultValue={producto && producto.description}
               onChange={handleProductInput}
             ></CFormTextarea>
+          </CCol>
+          <CCol md={12}>
+            <CFormSwitch
+              checked={productInput.published}
+              onChange={(e) => {
+                setProductInput({
+                  ...productInput,
+                  [e.target.name]: !productInput.published,
+                })
+              }}
+              name="published"
+              label="Publicado"
+              id="published"
+            />
           </CCol>
         </CRow>
       </CModalBody>
