@@ -37,7 +37,7 @@ const ProductTable = ({
               <CTableDataCell>
                 {p.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </CTableDataCell>
-              <CTableDataCell>{p.Category.name}</CTableDataCell>
+              <CTableDataCell>{p?.Category?.name}</CTableDataCell>
               <CTableDataCell>{p.brand}</CTableDataCell>
               <CTableDataCell>
                 <div className="d-flex">
