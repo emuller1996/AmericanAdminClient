@@ -7,6 +7,7 @@ import {
   CTableHeaderCell,
   CTableDataCell,
   CTableBody,
+  CBadge,
 } from '@coreui/react'
 
 const ProductTable = ({
@@ -24,7 +25,7 @@ const ProductTable = ({
           <CTableHeaderCell scope="col">Existencia</CTableHeaderCell>
           <CTableHeaderCell scope="col">Precio</CTableHeaderCell>
           <CTableHeaderCell scope="col">Categoria</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Marca</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Estado</CTableHeaderCell>
           <CTableHeaderCell scope="col"></CTableHeaderCell>
         </CTableRow>
       </CTableHead>
@@ -38,7 +39,13 @@ const ProductTable = ({
                 {p.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </CTableDataCell>
               <CTableDataCell>{p?.Category?.name}</CTableDataCell>
-              <CTableDataCell>{p.brand}</CTableDataCell>
+              <CTableDataCell>
+                {p.published ? (
+                  <CBadge color="success">Publicado</CBadge>
+                ) : (
+                  <CBadge color="danger">No Publicado</CBadge>
+                )}
+              </CTableDataCell>
               <CTableDataCell>
                 <div className="d-flex">
                   <button
