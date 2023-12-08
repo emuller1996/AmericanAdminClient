@@ -16,7 +16,7 @@ const routes = [
   { path: '/productos', name: 'Productos', element: ProductList, exact: true },
   { path: '/categorias', name: 'Productos / Categorias', element: Category },
   { path: '/ordenes', name: 'Ordendes', element: Orders },
-  { path: '/ordenes/:id', name: 'Editar Ordendes', element: OrdersUpdate },
+  { path: '/ordenes/:id', name: 'Editar  asOrdendes', element: OrdersUpdate },
   { path: '/clientes', name: 'Clientes', element: Clients },
   { path: '/productos/tallas', name: 'Tallas', element: SizeComponent },
 ]

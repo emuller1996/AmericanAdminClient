@@ -85,6 +85,7 @@ const OrderUpdate = () => {
                     <tr>
                       <th scope="col">IMG</th>
                       <th scope="col">Nombre</th>
+                      <th scope="col">Talla</th>
                       <th scope="col">Cantidad</th>
                       <th scope="col">Valor Unit</th>
                       <th scope="col">Valor Total</th>
@@ -92,15 +93,16 @@ const OrderUpdate = () => {
                   </thead>
                   <tbody>
                     {orderDetail &&
-                      orderDetail.Products.map((p) => (
+                      orderDetail.OrderDetails.map((p) => (
                         <tr key={p.id} className="">
                           <td>
-                            <CAvatar src={p.image} size="md" />
+                            <CAvatar src={p.Product.image} size="md" />
                           </td>
-                          <td>{p.name}</td>
-                          <td>{p.OrderDetail.units}</td>
-                          <td>{p.OrderDetail.unitPrice}</td>
-                          <td>{p.OrderDetail.totalPrice}</td>
+                          <td>{p.Product.name}</td>
+                          <td>{p.Size?.size}</td>
+                          <td>{p.units}</td>
+                          <td>{p?.unitPrice}</td>
+                          <td>{p?.totalPrice}</td>
                         </tr>
                       ))}
                   </tbody>
