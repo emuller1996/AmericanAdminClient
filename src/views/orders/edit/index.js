@@ -1,4 +1,4 @@
-import { CAvatar } from '@coreui/react'
+import { CAvatar, CCard, CCardBody, CCardText } from '@coreui/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -64,6 +64,23 @@ const OrderUpdate = () => {
               </small>
             </div>
           </div>
+          <div className="card border-0 rounded-0 mt-2">
+            <div className="card-body">
+              <small className="text-muted">Datos Pago</small>
+              {orderDetail &&
+                orderDetail.Payments.map((p) => (
+                  <div className="border rounded-1  p-2" key={p.i}>
+                    <div className="d-flex gap-1 flex-column ">
+                      <small className="m-0">Monto Neto : {p.net_amount}</small>
+                      <small className="m-0">Monto Recibido Neto : {p.net_received_amount}</small>
+                      <small className="m-0">Detalles de tarifa : {p.fee_details_amount}</small>
+                      <small className="m-0">Estado : {p.status}</small>
+                      <small className="m-0">Estado Detalle: {p.status_detail}</small>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
         </div>
 
         <div className="col-md-8 col-12">
@@ -111,6 +128,7 @@ const OrderUpdate = () => {
             </div>
           </div>
         </div>
+
         {orderDetail && <MessagesComponent id={orderDetail.id} />}
       </div>
     </div>
