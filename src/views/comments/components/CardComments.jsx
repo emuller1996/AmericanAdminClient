@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function CardComments({ c }) {
+export default function CardComments({ c, onResponse }) {
   return (
     <div className="col-md-6">
       <div className="card p-2">
@@ -33,7 +33,7 @@ export default function CardComments({ c }) {
             <button className="btn btn-info text-white ">
               <i className="fa-solid fa-check me-2"></i>Marcar Leido
             </button>
-            <button className="btn btn-primary">
+            <button className="btn btn-primary" onClick={() => onResponse(c)}>
               <i className="fa-brands fa-readme me-2"></i>Responder
             </button>
           </div>
@@ -44,4 +44,5 @@ export default function CardComments({ c }) {
 }
 CardComments.propTypes = {
   c: PropTypes.object.isRequired,
+  onResponse: PropTypes.func,
 }
