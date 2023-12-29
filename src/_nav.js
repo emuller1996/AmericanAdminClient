@@ -29,41 +29,35 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Productos',
+    name: 'Ecomerce',
   },
   {
     component: CNavItem,
     name: 'Productos',
     to: '/productos',
-    icon: <CIcon icon={cilLayers} customClassName="nav-icon" />,
+    icon: <i className="mx-3 fa-solid fa-box"></i>,
   },
   {
     component: CNavItem,
     name: 'Cliente',
     to: '/clientes',
-    icon: <CIcon icon={cilLayers} customClassName="nav-icon" />,
+    icon: <i className="mx-3 fa-solid fa-users-between-lines"></i>,
   },
   {
     component: CNavItem,
     name: 'Ordenes',
     to: '/ordenes',
-    icon: <CIcon icon={cilLayers} customClassName="nav-icon" />,
+    icon: <i className="mx-3 fa-solid fa-truck-arrow-right"></i>,
+  },
+  {
+    component: CNavItem,
+    name: 'Comentarios',
+    to: '/comentarios',
+    icon: <i className="mx-3 fa-regular fa-comment"></i>,
   },
   {
     component: CNavTitle,
     name: 'Theme',
-  },
-  {
-    component: CNavItem,
-    name: 'Colors',
-    to: '/theme/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Typography',
-    to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
   /* {
     component: CNavTitle,
