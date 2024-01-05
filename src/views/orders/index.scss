@@ -1,28 +1,24 @@
 .card-order-admin {
-  color: #161821;
-  background-color: #d6e0e7;
-  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
-  min-height: 170px;
-  max-height: auto;
-  text-align: center;
-  width: 100%;
-
+  color: #1d1d1d;
+  background-color: #d6dcff;
+  border: #bbc5ff solid 1px;
+  border-radius: 0.6em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   &:hover {
-    color: #003c66;
-    background-color: #c2d9e9;
-  /* box-shadow: rgba(66, 113, 150, 0.445) 0px 1px 2px 0px, rgba(66, 113, 150, 0.445)  0px 1px 3px 1px; */
-
+    color: #314088;
+    background-color: #dce1ff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 2px 2px 2px 2px;
+    border: #b6c1ff solid 2px;
   }
 
-  .button{
-    background-color: #0075c8!important;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  .button {
+    background-color: #2d48e2 !important;
+    border: 1px solid #697ce7;
     color: white !important;
-    border-radius:0.6em;
-    &:hover{
-    background-color: #0075c842!important;
-    color: #0075c8 !important;
-
+    border-radius: 0.6em;
+    &:hover {
+      background-color: #1836df !important;
+      color: #f7f7f7 !important;
     }
   }
 }

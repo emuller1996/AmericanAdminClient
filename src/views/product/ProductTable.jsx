@@ -8,7 +8,10 @@ import {
   CTableDataCell,
   CTableBody,
   CBadge,
+  CAvatar,
 } from '@coreui/react'
+import DataTable from 'react-data-table-component'
+import { MostrarPesoCOP } from 'src/utils'
 
 const ProductTable = ({
   products,
@@ -17,76 +20,111 @@ const ProductTable = ({
   setVisibleModalTallas,
   setVisibleModalImages,
 }) => {
+  const columns = [
+    {
+      name: 'image',
+      selector: (row) => row.image,
+      cell: (row, index, column, id) => (
+        <div>
+          <CAvatar src={row.image} />
+        </div>
+      ),
+    },
+    {
+      name: 'Nombre',
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: 'Existencia',
+      selector: (row) => row.stock,
+    },
+    {
+      name: 'Precio',
+      sortable: true,
+      style: { fontWeight: '700' },
+      selector: (row) => row.price,
+      format: (row) => MostrarPesoCOP(row.price),
+    },
+    {
+      name: 'Categoria',
+      selector: (row) => row.Category?.name,
+    },
+    {
+      name: 'Estado',
+      selector: (row) => row.Category?.name,
+      cell: (row) => (
+        <div>
+          {row.published ? (
+            <CBadge color="success">Publicado</CBadge>
+          ) : (
+            <CBadge color="danger">No Publicado</CBadge>
+          )}
+        </div>
+      ),
+    },
+    {
+      name: 'Aciones',
+      cell: (p) => (
+        <div className="d-flex">
+          <button
+            type="button"
+            className="btn btn-sm btn-info text-white rounded-3"
+            onClick={() => {
+              setVisible2(true)
+              console.log(p)
+              setProductoSelecionadoEditar(p)
+            }}
+          >
+            <i className="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button
+            type="button"
+            title="Tallas"
+            className="ms-1 btn btn-sm btn-warning text-white rounded-3"
+            onClick={() => {
+              console.log('modal de tallas')
+              setVisibleModalTallas(true)
+              setProductoSelecionadoEditar(p)
+            }}
+          >
+            <i className="fa-solid fa-tag"></i>
+          </button>
+          <button
+            type="button"
+            title="Imagenes"
+            className="ms-1 btn btn-sm btn-dark text-white rounded-3"
+            onClick={() => {
+              setVisibleModalImages(true)
+              setProductoSelecionadoEditar(p)
+            }}
+          >
+            <i className="fa-solid fa-images"></i>
+          </button>
+        </div>
+      ),
+    },
+  ]
+
+  const conditionalRowStyles = []
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Filas por página',
+    rangeSeparatorText: 'de',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Todos',
+  }
   return (
-    <CTable responsive="md">
-      <CTableHead>
-        <CTableRow>
-          <CTableHeaderCell scope="col">Nombre</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Existencia</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Precio</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Categoria</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Estado</CTableHeaderCell>
-          <CTableHeaderCell scope="col"></CTableHeaderCell>
-        </CTableRow>
-      </CTableHead>
-      <CTableBody>
-        {products &&
-          products.map((p) => (
-            <CTableRow key={p.id}>
-              <CTableDataCell>{p.name}</CTableDataCell>
-              <CTableDataCell>{p.stock}</CTableDataCell>
-              <CTableDataCell>
-                {p.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-              </CTableDataCell>
-              <CTableDataCell>{p?.Category?.name}</CTableDataCell>
-              <CTableDataCell>
-                {p.published ? (
-                  <CBadge color="success">Publicado</CBadge>
-                ) : (
-                  <CBadge color="danger">No Publicado</CBadge>
-                )}
-              </CTableDataCell>
-              <CTableDataCell>
-                <div className="d-flex">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-info text-white rounded-3"
-                    onClick={() => {
-                      setVisible2(true)
-                      console.log(p)
-                      setProductoSelecionadoEditar(p)
-                    }}
-                  >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button
-                    type="button"
-                    title="Tallas"
-                    className="ms-1 btn btn-sm btn-warning text-white rounded-3"
-                    onClick={() => {
-                      console.log('modal de tallas')
-                      setVisibleModalTallas(true)
-                      setProductoSelecionadoEditar(p)
-                    }}
-                  >
-                    <i className="fa-solid fa-tag"></i>
-                  </button>
-                  <button
-                    type="button"
-                    title="Imagenes"
-                    className="ms-1 btn btn-sm btn-dark text-white rounded-3"
-                    onClick={() => {
-                      setVisibleModalImages(true)
-                      setProductoSelecionadoEditar(p)
-                    }}
-                  >
-                    <i className="fa-solid fa-images"></i>
-                  </button>
-                </div>
-              </CTableDataCell>
-            </CTableRow>
-          ))}
-      </CTableBody>
+    <CTable responsive="xl">
+      <DataTable
+        responsive
+        pagination
+        paginationComponentOptions={paginationComponentOptions}
+        paginationPerPage={10}
+        columns={columns}
+        data={products}
+        conditionalRowStyles={conditionalRowStyles}
+      />
     </CTable>
   )
 }

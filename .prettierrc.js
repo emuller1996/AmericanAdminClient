@@ -1,7 +1,14 @@
 module.exports = {
   semi: false,
-  trailingComma: "all",
+  trailingComma: 'all',
   singleQuote: true,
   printWidth: 100,
-  tabWidth: 2
-};
+  tabWidth: 2,
+  'prettier/prettier': [
+    'error',
+    {
+      singleQuote: true,
+      parser: 'flow',
+    },
+  ],
+}
