@@ -76,6 +76,7 @@ const OrderUpdate = () => {
                       <small className="m-0">Detalles de tarifa : {p.fee_details_amount}</small>
                       <small className="m-0">Estado : {p.status}</small>
                       <small className="m-0">Estado Detalle: {p.status_detail}</small>
+                      <small className="m-0">Metodo de Pago: {p.payment_method}</small>
                     </div>
                   </div>
                 ))}
