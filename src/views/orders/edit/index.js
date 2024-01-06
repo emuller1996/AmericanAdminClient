@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import MessagesComponent from './Messages'
-
+import Select from 'react-select'
 const OrderUpdate = () => {
   const { id } = useParams()
   const [orderDetail, setOrderDetail] = useState()
@@ -25,6 +25,13 @@ const OrderUpdate = () => {
     setOrderDetail(result.data.order)
   }
 
+  const options = [
+    { value: 'PENDIENTE', label: 'PENDIENTE' },
+    { value: 'EN PROCESO', label: 'EN PROCESO' },
+    { value: 'EN CAMINO', label: 'EN CAMINO' },
+    { value: 'RECIBIDA', label: 'RECIBIDA' },
+    { value: 'CANCELADA', label: 'CANCELADA' },
+  ]
   return (
     <div className="container-xxl">
       <h4>Editar Orden #{id} </h4>
@@ -93,6 +100,25 @@ const OrderUpdate = () => {
                   Fecha : {orderDetail && orderDetail.purchase_date.substring(0, 10)}
                 </div>
                 <div className="col">
+                  {orderDetail && (
+                    <Select
+                      options={options}
+                      defaultValue={
+                        orderDetail && options.find((c) => c.value === orderDetail.status)
+                      }
+                      onChange={async (e) => {
+                        console.log(e)
+                        console.log(orderDetail)
+                        try {
+                          const r = await axios.patch(`/order/${orderDetail.id}/`, {
+                            status: e.value,
+                          })
+                          console.log(r)
+                          await getOrderById(id)
+                        } catch (error) {}
+                      }}
+                    />
+                  )}
                   <span className="badge bg-info">{orderDetail && orderDetail.status}</span>
                 </div>
               </div>
