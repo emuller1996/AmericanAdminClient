@@ -10,6 +10,7 @@ const OrdersUpdate = React.lazy(() => import('./views/orders/edit/index'))
 const Clients = React.lazy(() => import('./views/clients/index'))
 const SizeComponent = React.lazy(() => import('./views/product/sizes/index'))
 const Commets = React.lazy(() => import('./views/comments/Commets'))
+const Users = React.lazy(() => import('./views/users/Users'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -21,6 +22,7 @@ const routes = [
   { path: '/clientes', name: 'Clientes', element: Clients },
   { path: '/productos/tallas', name: 'Tallas', element: SizeComponent },
   { path: '/comentarios/', name: 'Commetarios', element: Commets },
+  { path: '/usuarios/', name: 'Users', element: Users },
 ]
 
 export default routes
