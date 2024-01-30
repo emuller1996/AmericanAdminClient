@@ -8,8 +8,9 @@ import {
   getAllImagesProductsService,
 } from '../services/Images.services'
 import toast from 'react-hot-toast'
+import { putUpdateProductsService } from 'src/services/product.services'
 
-const ImagesProduct = ({ productoSelecionadoEditar }) => {
+const ImagesProduct = ({ productoSelecionadoEditar, setProductoSelecionadoEditar,getAllProducts }) => {
   const [AllImages, setAllImages] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingUp, setIsLoadingUp] = useState(false)
@@ -34,7 +35,7 @@ const ImagesProduct = ({ productoSelecionadoEditar }) => {
   const inputRef = useRef(null)
   return (
     <CContainer>
-      <div className="row">
+      <div className="row g-4 ">
         <div className="col-md-6">
           <div className="row g-3">
             {isLoading && (
@@ -45,13 +46,43 @@ const ImagesProduct = ({ productoSelecionadoEditar }) => {
             {AllImages &&
               Array.isArray(AllImages) &&
               AllImages.map((c) => (
-                <div key={c.id} className="col-md-6">
-                  <div className="card text-center d-flex align-items-center">
-                    <img
-                      src={c.url_image}
-                      style={{ width: '100px', height: '100px' }}
-                      alt="IMG_PRODUCTO"
-                    />
+                <div key={c.id} className="col-4 col-md-6">
+                  <div
+                    className={`card text-center d-flex align-items-center overflow-hidden ${
+                      productoSelecionadoEditar.image === c.url_image ? 'bg-dark' : ''
+                    }`}
+                  >
+                    <img src={c.url_image} alt="IMG_PRODUCTO" className="img-fluid " />
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token')
+                          console.log(productoSelecionadoEditar)
+                          const r = await putUpdateProductsService(
+                            {
+                              id: productoSelecionadoEditar.id,
+                              image: c.url_image,
+                            },
+                            token,
+                          )
+                          await getAllProducts()
+                          setProductoSelecionadoEditar((status) => {
+                            return {
+                              ...status,
+                              image: c.url_image,
+                            }
+                          })
+                          console.log(r.data)
+                          toast.success(r.data.message)
+                          console.log(c.url_image)
+                        } catch (error) {
+                          console.log(error)
+                        }
+                      }}
+                      className="btn btn-secondary my-2"
+                    >
+                      Selecionar
+                    </button>
                   </div>
                 </div>
               ))}
@@ -63,7 +94,7 @@ const ImagesProduct = ({ productoSelecionadoEditar }) => {
             )}
           </div>
         </div>
-        <div className="col-md-6 col-lg-4">
+        <div className="col-md-6 ">
           <div className="mb-3 text-center">
             <label htmlFor="formFile" className="form-label">
               Agrege la imagen para el producto
@@ -119,6 +150,8 @@ const ImagesProduct = ({ productoSelecionadoEditar }) => {
 
 ImagesProduct.propTypes = {
   productoSelecionadoEditar: PropTypes.object,
+  setProductoSelecionadoEditar: PropTypes.func,
+  getAllProducts: PropTypes.func,
 }
 
 export default ImagesProduct

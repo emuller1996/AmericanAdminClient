@@ -163,7 +163,11 @@ const ProductList = () => {
           <CModalTitle>Imagenes</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <ImagesProduct productoSelecionadoEditar={productoSelecionadoEditar} />
+          <ImagesProduct
+            setProductoSelecionadoEditar={setProductoSelecionadoEditar}
+            productoSelecionadoEditar={productoSelecionadoEditar}
+            getAllProducts={getAllProducts}
+          />
         </CModalBody>
       </CModal>
     </div>

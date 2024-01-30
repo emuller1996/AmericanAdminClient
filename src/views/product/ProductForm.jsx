@@ -140,7 +140,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
                 ))}
             </CFormSelect>
           </CCol>
-          <CCol md={12}>
+          {/* <CCol md={12}>
             <CFormInput
               type="text"
               id="image"
@@ -151,7 +151,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               onChange={handleProductInput}
               defaultValue={producto && producto.image}
             />
-          </CCol>
+          </CCol> */}
           <CCol md={12}>
             <CFormTextarea
               id="description"

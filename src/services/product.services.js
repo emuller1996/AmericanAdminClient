@@ -4,6 +4,12 @@ export const getAllProductsService = async () => {
   const result = await axios.get('/products')
   return result.data.products
 }
+export const putUpdateProductsService = async (data, token) => {
+  const result = await axios.put(`/products/`, data, {
+    headers: { 'access-token': token },
+  })
+  return result
+}
 
 export const createSizeProductsService = async (productoId, data, token) => {
   return await axios.post(`/products/${productoId}/size`, data, {

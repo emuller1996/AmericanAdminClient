@@ -98,10 +98,11 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
     <div className="p-4">
       <div className="row g-2">
         <div className="col-lg-5">
+          <p className="fw-semibold text-center mb-1">Selecione la talla</p>
           <div className="row g-3">
             {sizeAll &&
               sizeAll.map((s) => (
-                <div key={s.size} className="col-md-6 col-lg-6 col-xl-4">
+                <div key={s.size} className="col-6 col-lg-6 col-xl-6">
                   <div
                     className={`
                       ${
@@ -153,7 +154,7 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
           {sizeProduct &&
             sizeProduct.map((s) => (
               <div className="card mt-2" key={s.id}>
-                <div className="p-1">
+                <div className="py-1 px-3">
                   <div className="d-flex justify-content-center align-items-center">
                     <p className="w-100 m-0">{` Talla :${s.Size.size} -  Cantidad : ${s.quantity}`}</p>
                     <button
