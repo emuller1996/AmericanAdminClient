@@ -1,15 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableDataCell,
-  CTableBody,
-  CBadge,
-  CAvatar,
-} from '@coreui/react'
+import { CTable, CBadge, CAvatar } from '@coreui/react'
 import DataTable from 'react-data-table-component'
 import { MostrarPesoCOP } from 'src/utils'
 

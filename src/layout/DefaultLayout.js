@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Toaster } from 'react-hot-toast'
 
 const DefaultLayout = () => {
   const navigate = useNavigate()
@@ -28,8 +27,6 @@ const DefaultLayout = () => {
           <AppContent />
         </div>
         <AppFooter />
-
-        <Toaster />
       </div>
     </div>
   )

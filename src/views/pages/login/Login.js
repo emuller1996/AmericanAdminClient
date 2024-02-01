@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
@@ -16,26 +16,33 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-import axios from 'axios'
+import AuthContext from 'src/context/AuthContext'
+import toast from 'react-hot-toast'
 
 const Login = () => {
   const [user, setUser] = useState({ username: '', password: '' })
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
+  const { loginUser } = useContext(AuthContext)
 
   const navigate = useNavigate()
   const onLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError(undefined)
+    if (user.username === '' || user.password === '') {
+      toast.error('el usuario y la contraseña son requeridas')
+      setLoading(false)
+      return false
+    }
     try {
-      const result = await axios.post('/auth', user)
+      const result = await loginUser(user)
       console.log(result.data)
       localStorage.setItem('token', result.data.token)
       navigate('/dashboard')
     } catch (error) {
       console.log(error)
-      setError({ message: error.response.data.message, code: error.response.status })
+      setError({ message: error?.response?.data?.message, code: error?.response?.status })
     } finally {
       setLoading(false)
     }
