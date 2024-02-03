@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios'
-export const getAllProductsService = async () => {
-  const result = await axios.get('/products')
+export const getAllProductsService = async (token) => {
+  const result = await axios.get('/products',{
+    headers: { 'access-token': token },
+  })
   return result.data.products
 }
 export const putUpdateProductsService = async (data, token) => {
@@ -29,6 +31,8 @@ export const DeleteSizeProductsService = async (id, idProduct, token) => {
   })
 }
 
-export const getAllSizeProductsService = async (id) => {
-  return await axios.get(`/products/${id}/size`)
+export const getAllSizeProductsService = async (id,token) => {
+  return await axios.get(`/products/${id}/size`,{
+    headers: { 'access-token': token },
+  })
 }

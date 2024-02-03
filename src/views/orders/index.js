@@ -22,7 +22,21 @@ const OrderComponent = () => {
 
   return (
     <CContainer>
-      <h3>List Orders</h3>
+      <h3>Listado de Pedidos/Ordenes</h3>
+      <div className="bg-body-secondary">
+        <span>Filtrados</span>
+      </div>
+
+      {orders && Array.isArray(orders) && orders.length === 0 && (
+        <div
+          style={{ minHeight: '20vh' }}
+          className="d-flex justify-content-center  align-items-center "
+        >
+          <div className="alert alert-light" role="alert">
+            <strong>No Hay Ordenes</strong>
+          </div>
+        </div>
+      )}
       <ListOrdersComponent orders={orders} />
     </CContainer>
   )

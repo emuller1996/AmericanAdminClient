@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CButton, CModal, CModalBody, CModalHeader, CModalTitle } from '@coreui/react'
 import ProductTable from './ProductTable'
 import axios from 'axios'
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { getAllProductsService } from 'src/services/product.services'
 import ProductSize from './sizes/ProductSize'
 import ImagesProduct from './images/ImagesProduct'
+import AuthContext from 'src/context/AuthContext'
 
 const ProductList = () => {
   const [productsAll, setProductsAll] = useState([])
@@ -18,6 +19,8 @@ const ProductList = () => {
   const [sizesProduct, setSizesProduct] = useState([])
   const [categories, setCategories] = useState([])
   const [productoSelecionadoEditar, setProductoSelecionadoEditar] = useState(undefined)
+
+  const { authTokens, user } = useContext(AuthContext)
 
   useEffect(() => {
     getAllProducts()
@@ -34,7 +37,7 @@ const ProductList = () => {
   //OBTENER TODO LOS PRODUCTOS
   const getAllProducts = async () => {
     try {
-      setProductsAll(await getAllProductsService())
+      setProductsAll(await getAllProductsService(authTokens))
     } catch (error) {
       console.log(error)
     }
@@ -48,33 +51,40 @@ const ProductList = () => {
 
   return (
     <div className="container">
-      <div className="d-flex justify-content-center align-items-center g-2 mb-2">
-        <div className="w-100">
-          <CButton
-            className="rounded-3"
-            onClick={() => {
-              setVisible(true)
-              /*  setProductInput({}) */
-            }}
-            color="primary"
-          >
-            Crear Producto
-          </CButton>
+      <div className="d-flex justify-content-between gap-2  flex-wrap  align-items-center g-2 mb-2">
+        <div className="">
+          {user.role === 'Admin' && (
+            <CButton
+              className="rounded-3  d-flex align-items-center   gap-1"
+              onClick={() => {
+                setVisible(true)
+                /*  setProductInput({}) */
+              }}
+              color="primary"
+              title="Crear Producto"
+            >
+              <i className="fa-solid fa-square-plus"></i>
+              <span className="d-none d-md-flex">Crear Producto</span>
+            </CButton>
+          )}
         </div>
-        <div className="d-flex">
+        <div className="d-flex flex-wrap gap-2 ">
           <Link
-            className="ms-2 btn btn-secondary text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
+            className="ms-2 d-flex align-items-center   gap-1 btn btn-secondary text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
             to={'/categorias'}
+            title="Categorias"
           >
-            Categorias
+            <i className="fa-solid fa-list"></i>
+            <span className="d-none d-md-flex">Categorias</span>
           </Link>
 
           <Link
             className="d-flex align-items-center ms-2 btn btn-warning text-white fw-semibold text-decoration-none rounded-3 shadow-sm"
             to={'/productos/tallas'}
+            title="Tallas"
           >
             <i className="fa-solid fa-tag me-2"></i>
-            Tallas
+            <span className="d-none d-md-flex">Tallas</span>
           </Link>
         </div>
       </div>

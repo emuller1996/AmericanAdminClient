@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './ProductSize.scss'
 import {
   DeleteSizeProductsService,
@@ -9,6 +9,7 @@ import {
 } from 'src/services/product.services'
 import PropTypes from 'prop-types'
 import { toast } from 'react-hot-toast'
+import AuthContext from 'src/context/AuthContext'
 
 const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
   const [sizeAll, setSizeAll] = useState(undefined)
@@ -16,6 +17,7 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
   const [sizeSelecionadoEditar, setsizeSelecionadoEditar] = useState(undefined)
   const [sizeProduct, setSizeProduct] = useState(undefined)
   const [cantidad, setCantidad] = useState(undefined)
+  const { authTokens } = useContext(AuthContext)
 
   useEffect(() => {
     getAllSizes()
@@ -33,7 +35,7 @@ const ProductSize = ({ productoSelecionadoEditar, getAllProducts }) => {
 
   const getAllSizesByProduct = async (id) => {
     try {
-      const result = await getAllSizeProductsService(id)
+      const result = await getAllSizeProductsService(id, authTokens)
       console.log(result.data)
       console.log()
       setSizeProduct(result.data)
