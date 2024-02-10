@@ -55,6 +55,24 @@ const ProductTable = ({
       ),
     },
     {
+      name: 'Descuento',
+      selector: (row) => row.Category?.name,
+      cell: (row) => (
+        <div>
+          {row.is_discount ? (
+            <>
+              <CBadge color="success">{`En ${row.discount_percentage}% de Descuento`} </CBadge>
+              <small>
+                {MostrarPesoCOP(row.price - row.price * (row.discount_percentage / 100))}
+              </small>
+            </>
+          ) : (
+            <CBadge color="danger">No</CBadge>
+          )}
+        </div>
+      ),
+    },
+    {
       name: 'Aciones',
       cell: (p) => (
         <div className="d-flex">

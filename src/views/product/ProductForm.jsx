@@ -16,7 +16,10 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
 function ProductForm({ categories, setVisible, producto, getAllProducts }) {
-  const [productInput, setProductInput] = useState({ published: producto?.published })
+  const [productInput, setProductInput] = useState({
+    published: producto?.published,
+    is_discount: producto?.is_discount,
+  })
 
   const handleProductInput = (e) => {
     setProductInput({
@@ -73,7 +76,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
   return (
     <CForm onSubmit={onSaveProduct} autoComplete="off">
       <CModalBody>
-        <CRow xs={{ gutterY: 3 }}>
+        <CRow xs={{ gutterY: 3 }} className="justify-content-center  align-items-center ">
           <CCol md={6}>
             <CFormInput
               type="text"
@@ -175,6 +178,33 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               name="published"
               label="Publicado"
               id="published"
+            />
+          </CCol>
+          <CCol md={6}>
+            <CFormSwitch
+              checked={productInput.is_discount}
+              onChange={(e) => {
+                setProductInput({
+                  ...productInput,
+                  [e.target.name]: !productInput.is_discount,
+                })
+              }}
+              name="is_discount"
+              label="Esta en Descuento?"
+              id="is_discount"
+            />
+          </CCol>
+          <CCol md={6}>
+            <CFormInput
+              type="number"
+              id="discount_percentage"
+              label="Porcentaje"
+              placeholder=""
+              disabled={!productInput?.is_discount}
+              name="discount_percentage"
+              value={productInput?.discount_percentage}
+              defaultValue={producto && producto?.discount_percentage}
+              onChange={handleProductInput}
             />
           </CCol>
         </CRow>
