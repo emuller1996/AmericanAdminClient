@@ -8,6 +8,8 @@ import { getAllProductsService } from 'src/services/product.services'
 import ProductSize from './sizes/ProductSize'
 import ImagesProduct from './images/ImagesProduct'
 import AuthContext from 'src/context/AuthContext'
+import { Button, Form, InputGroup } from 'react-bootstrap'
+import ImportForm from './ImportForm'
 
 const ProductList = () => {
   const [productsAll, setProductsAll] = useState([])
@@ -15,6 +17,7 @@ const ProductList = () => {
   const [visible2, setVisible2] = useState(false)
   const [visibleModalTallas, setVisibleModalTallas] = useState(false)
   const [visibleModalImages, setVisibleModalImages] = useState(false)
+  const [visibleModalImportar, setVisibleModalImportar] = useState(false)
 
   const [sizesProduct, setSizesProduct] = useState([])
   const [categories, setCategories] = useState([])
@@ -52,7 +55,7 @@ const ProductList = () => {
   return (
     <div className="container">
       <div className="d-flex justify-content-between gap-2  flex-wrap  align-items-center g-2 mb-2">
-        <div className="">
+        <div className=" d-flex gap-2 ">
           {user.role === 'Admin' && (
             <CButton
               className="rounded-3  d-flex align-items-center   gap-1"
@@ -65,6 +68,20 @@ const ProductList = () => {
             >
               <i className="fa-solid fa-square-plus"></i>
               <span className="d-none d-md-flex">Crear Producto</span>
+            </CButton>
+          )}
+          {user.role === 'Admin' && (
+            <CButton
+              className="rounded-3  d-flex align-items-center   gap-1"
+              onClick={() => {
+                setVisibleModalImportar(true)
+                /*  setProductInput({}) */
+              }}
+              color="primary"
+              title="Crear Producto"
+            >
+              <i className="fa-solid fa-file-csv"></i>
+              <span className="d-none d-md-flex">Importar Productos / XSL</span>
             </CButton>
           )}
         </div>
@@ -178,6 +195,21 @@ const ProductList = () => {
             productoSelecionadoEditar={productoSelecionadoEditar}
             getAllProducts={getAllProducts}
           />
+        </CModalBody>
+      </CModal>
+      {/* MODAL Importar */}
+      <CModal
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        visible={visibleModalImportar}
+        onClose={() => setVisibleModalImportar(false)}
+      >
+        <CModalHeader onClose={() => setVisibleModalImportar(false)}>
+          <CModalTitle>Importar Productos</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <ImportForm />
         </CModalBody>
       </CModal>
     </div>

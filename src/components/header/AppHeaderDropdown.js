@@ -31,14 +31,14 @@ const AppHeaderDropdown = () => {
           className="mx-3 d-flex flex-column gap-0 my-1 text-center "
           style={{ fontSize: '0.8em', fontWeight: 'bolder' }}
         >
-          <b className="my-2">{user.name}</b>
+          <b className="my-2">{user?.name}</b>
           <div className="d-flex  justify-content-between  gap-0 align-items-start">
             <b>Usuario </b>
-            <span className="">{user.username}</span>
+            <span className="">{user?.username}</span>
           </div>
           <div className="d-flex  justify-content-between  gap-0 align-items-start">
             <b>Role</b>
-            <span className="">{user.role}</span>
+            <span className="">{user?.role}</span>
           </div>
         </div>
         <CDropdownHeader className="bg-light fw-semibold py-2"></CDropdownHeader>

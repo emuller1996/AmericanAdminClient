@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios'
 export const getAllProductsService = async (token) => {
-  const result = await axios.get('/products',{
+  const result = await axios.get('/products', {
     headers: { 'access-token': token },
   })
   return result.data.products
@@ -18,6 +18,11 @@ export const createSizeProductsService = async (productoId, data, token) => {
     headers: { 'access-token': token },
   })
 }
+export const importProductsService = async (data, token) => {
+  return await axios.post(`/products/import-excel`, data, {
+    headers: { 'access-token': token, 'Content-Type': 'multipart/form-data' },
+  })
+}
 
 export const UpdateSizeProductsService = async (data, token) => {
   return await axios.put(`/sizes/${data.id}/`, data, {
@@ -31,8 +36,8 @@ export const DeleteSizeProductsService = async (id, idProduct, token) => {
   })
 }
 
-export const getAllSizeProductsService = async (id,token) => {
-  return await axios.get(`/products/${id}/size`,{
+export const getAllSizeProductsService = async (id, token) => {
+  return await axios.get(`/products/${id}/size`, {
     headers: { 'access-token': token },
   })
 }
