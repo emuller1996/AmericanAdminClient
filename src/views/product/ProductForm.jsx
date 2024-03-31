@@ -77,7 +77,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
     <CForm onSubmit={onSaveProduct} autoComplete="off">
       <CModalBody>
         <CRow xs={{ gutterY: 3 }} className="justify-content-center  align-items-center ">
-          <CCol md={6}>
+          <CCol md={8}>
             <CFormInput
               type="text"
               id="name"
@@ -89,7 +89,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               onChange={handleProductInput}
             />
           </CCol>
-          <CCol xl={4} md={3}>
+          <CCol xl={4} md={4}>
             <CFormInput
               type="number"
               id="price"
@@ -101,18 +101,7 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               onChange={handleProductInput}
             />
           </CCol>
-          {/* <CCol xl={2} md={3}>
-            <CFormInput
-              type="number"
-              id="stock"
-              label="Cantidad"
-              placeholder=""
-              name="stock"
-              value={productInput.stock}
-              onChange={handleProductInput}
-            />
-          </CCol> */}
-          <CCol md={6}>
+          <CCol md={4}>
             <CFormInput
               type="text"
               id="brand"
@@ -124,7 +113,23 @@ function ProductForm({ categories, setVisible, producto, getAllProducts }) {
               onChange={handleProductInput}
             />
           </CCol>
-          <CCol md={6}>
+          <CCol md={4}>
+            <CFormSelect
+              aria-label="Default select example"
+              label="Genero"
+              id="gender"
+              name="gender"
+              value={productInput.gender}
+              defaultValue={producto && producto.gender}
+              onChange={handleProductInput}
+              type="number"
+            >
+              <option value={'Hombre'}>Hombre</option>
+              <option value={'Mujer'}>Mujer</option>
+              <option value={'Nino'}>Niño</option>
+            </CFormSelect>
+          </CCol>
+          <CCol md={4}>
             <CFormSelect
               aria-label="Default select example"
               label="Categoria"
