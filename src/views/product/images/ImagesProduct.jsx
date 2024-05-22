@@ -10,10 +10,16 @@ import {
 import toast from 'react-hot-toast'
 import { putUpdateProductsService } from 'src/services/product.services'
 
-const ImagesProduct = ({ productoSelecionadoEditar, setProductoSelecionadoEditar,getAllProducts }) => {
+const ImagesProduct = ({
+  productoSelecionadoEditar,
+  setProductoSelecionadoEditar,
+  getAllProducts,
+}) => {
   const [AllImages, setAllImages] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingUp, setIsLoadingUp] = useState(false)
+
+  const [urlImage, seturlImage] = useState('')
 
   useEffect(() => {
     getAllImageProduct()
@@ -105,34 +111,81 @@ const ImagesProduct = ({ productoSelecionadoEditar, setProductoSelecionadoEditar
               </div>
             ) : (
               <>
-                <input ref={inputRef} className="form-control" type="file" id="formFile" />
+                <input
+                  ref={inputRef}
+                  className="form-control"
+                  onChange={() => {
+                    seturlImage('')
+                  }}
+                  type="file"
+                  id="formFile"
+                />
+                <div className="mb-3 mt-3">
+                  <span className=""> o Ingrese la URL de una imagen </span>
+                </div>
+
+                <input
+                  className="form-control"
+                  value={urlImage}
+                  onChange={(e) => {
+                    seturlImage(e.target.value)
+                  }}
+                  type="url"
+                  id=""
+                />
+
                 <button
                   disabled={!inputRef?.current ? true : false}
                   onClick={async () => {
-                    const data = new FormData()
-                    data.append('file', inputRef.current.files[0])
-                    data.append('upload_preset', 'AmericanImagenes')
-                    try {
-                      setIsLoadingUp(true)
-                      const r = await axios.post(
-                        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY_CLOUDINARY}/image/upload`,
-                        data,
-                      )
-                      const token = localStorage.getItem('token')
-                      await createImagesProductsService(
-                        productoSelecionadoEditar.id,
-                        {
-                          url_image: r.data.secure_url,
-                          ProductId: productoSelecionadoEditar.id,
-                        },
-                        token,
-                      )
-                      setIsLoadingUp(false)
-                      await getAllImageProduct()
-                      toast.success('Se ha Cargado la imagen Correctamente')
-                    } catch (error) {
-                      console.log(error)
-                      setIsLoadingUp(false)
+                    console.log(urlImage)
+                    console.log(urlImage === '')
+                    if (urlImage === '') {
+                      const data = new FormData()
+                      data.append('file', inputRef.current.files[0])
+                      data.append('upload_preset', 'AmericanImagenes')
+                      try {
+                        setIsLoadingUp(true)
+                        const r = await axios.post(
+                          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY_CLOUDINARY}/image/upload`,
+                          data,
+                        )
+                        const token = localStorage.getItem('token')
+                        await createImagesProductsService(
+                          productoSelecionadoEditar.id,
+                          {
+                            url_image: r.data.secure_url,
+                            ProductId: productoSelecionadoEditar.id,
+                          },
+                          token,
+                        )
+                        setIsLoadingUp(false)
+                        await getAllImageProduct()
+                        toast.success('Se ha Cargado la imagen Correctamente')
+                      } catch (error) {
+                        console.log(error)
+                        setIsLoadingUp(false)
+                      }
+                    } else {
+                      try {
+                        setIsLoadingUp(true)
+
+                        const token = localStorage.getItem('token')
+                        await createImagesProductsService(
+                          productoSelecionadoEditar.id,
+                          {
+                            url_image: urlImage,
+                            ProductId: productoSelecionadoEditar.id,
+                          },
+                          token,
+                        )
+                        setIsLoadingUp(false)
+                        await getAllImageProduct()
+                        seturlImage('')
+                        toast.success('Se ha Cargado la imagen Correctamente')
+                      } catch (error) {
+                        console.log(error)
+                        setIsLoadingUp(false)
+                      }
                     }
                   }}
                   className="btn btn-primary mt-3"
