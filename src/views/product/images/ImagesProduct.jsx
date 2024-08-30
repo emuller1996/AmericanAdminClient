@@ -26,6 +26,8 @@ const ImagesProduct = ({
     return () => {}
   }, [])
 
+  const [base64Image, setBase64Image] = useState(null);
+
   const getAllImageProduct = async () => {
     setIsLoading(true)
     const r = await getAllImagesProductsService(productoSelecionadoEditar.id)
@@ -37,6 +39,18 @@ const ImagesProduct = ({
       setIsLoading(false)
     }
   }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64Image(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
 
   const inputRef = useRef(null)
   return (
@@ -55,10 +69,10 @@ const ImagesProduct = ({
                 <div key={c.id} className="col-4 col-md-6">
                   <div
                     className={`card text-center d-flex align-items-center overflow-hidden ${
-                      productoSelecionadoEditar.image === c.url_image ? 'bg-dark' : ''
+                      productoSelecionadoEditar.image === c.imageBase64 ? 'bg-dark' : ''
                     }`}
                   >
-                    <img src={c.url_image} alt="IMG_PRODUCTO" className="img-fluid " />
+                    <img src={c.imageBase64} alt="IMG_PRODUCTO" className="img-fluid " />
                     <button
                       onClick={async () => {
                         try {
@@ -67,7 +81,7 @@ const ImagesProduct = ({
                           const r = await putUpdateProductsService(
                             {
                               id: productoSelecionadoEditar.id,
-                              image: c.url_image,
+                              image: c.imageBase64,
                             },
                             token,
                           )
@@ -75,7 +89,7 @@ const ImagesProduct = ({
                           setProductoSelecionadoEditar((status) => {
                             return {
                               ...status,
-                              image: c.url_image,
+                              image: c.imageBase64,
                             }
                           })
                           console.log(r.data)
@@ -111,50 +125,43 @@ const ImagesProduct = ({
               </div>
             ) : (
               <>
-                <input
-                  ref={inputRef}
-                  className="form-control"
-                  onChange={() => {
-                    seturlImage('')
-                  }}
-                  type="file"
-                  id="formFile"
-                />
-                <div className="mb-3 mt-3">
-                  <span className=""> o Ingrese la URL de una imagen </span>
-                </div>
+                
+                
 
-                <input
-                  className="form-control"
-                  value={urlImage}
-                  onChange={(e) => {
-                    seturlImage(e.target.value)
-                  }}
-                  type="url"
-                  id=""
-                />
+                <div className="mb-4">
+            <label
+              htmlFor="img_url"
+              className="block mb-2  text-gray-400 dark:text-white"
+            >
+              URL image
+            </label>
+            <input
+              /* {...register("img_url", { required: true })} */
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            />
+
+            {base64Image && (
+              <div className="flex justify-center  my-8">
+                <img src={base64Image} alt="Selected" style={{height:"150px"}} className="h-52" />
+              </div>
+            )}
+          </div>
+                
 
                 <button
-                  disabled={!inputRef?.current ? true : false}
                   onClick={async () => {
-                    console.log(urlImage)
-                    console.log(urlImage === '')
-                    if (urlImage === '') {
-                      const data = new FormData()
-                      data.append('file', inputRef.current.files[0])
-                      data.append('upload_preset', 'AmericanImagenes')
                       try {
                         setIsLoadingUp(true)
-                        const r = await axios.post(
-                          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY_CLOUDINARY}/image/upload`,
-                          data,
-                        )
                         const token = localStorage.getItem('token')
                         await createImagesProductsService(
                           productoSelecionadoEditar.id,
                           {
-                            url_image: r.data.secure_url,
+                            url_image: "test",
                             ProductId: productoSelecionadoEditar.id,
+                            imageBase64:base64Image
                           },
                           token,
                         )
@@ -165,28 +172,6 @@ const ImagesProduct = ({
                         console.log(error)
                         setIsLoadingUp(false)
                       }
-                    } else {
-                      try {
-                        setIsLoadingUp(true)
-
-                        const token = localStorage.getItem('token')
-                        await createImagesProductsService(
-                          productoSelecionadoEditar.id,
-                          {
-                            url_image: urlImage,
-                            ProductId: productoSelecionadoEditar.id,
-                          },
-                          token,
-                        )
-                        setIsLoadingUp(false)
-                        await getAllImageProduct()
-                        seturlImage('')
-                        toast.success('Se ha Cargado la imagen Correctamente')
-                      } catch (error) {
-                        console.log(error)
-                        setIsLoadingUp(false)
-                      }
-                    }
                   }}
                   className="btn btn-primary mt-3"
                 >
