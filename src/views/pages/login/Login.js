@@ -42,7 +42,11 @@ const Login = () => {
       navigate('/dashboard')
     } catch (error) {
       console.log(error)
-      setError({ message: error?.response?.data?.message, code: error?.response?.status })
+      setError({
+        message: error?.response?.data?.message,
+        code: error?.response?.status,
+        detail: error?.response?.data?.detail,
+      })
     } finally {
       setLoading(false)
     }
@@ -60,7 +64,7 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-2">
                 <CCardBody>
-                  <CForm onSubmit={onLogin}>
+                  <CForm autoComplete="off" onSubmit={onLogin}>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
@@ -72,7 +76,6 @@ const Login = () => {
                         onChange={handleInput}
                         value={user.usermane}
                         placeholder="Username"
-                        autoComplete="username"
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
@@ -85,13 +88,12 @@ const Login = () => {
                         onChange={handleInput}
                         value={user.password}
                         placeholder="Password"
-                        autoComplete="current-password"
                       />
                     </CInputGroup>
                     {error && (
                       <div className="alert alert-danger" role="alert">
-                        ERORR{`::${error.code}`}{' '}
                         <strong className="d-block">{error.message}</strong>
+                        <span className="d-block">{error.detail}</span>
                       </div>
                     )}
 
@@ -101,15 +103,10 @@ const Login = () => {
                       </div>
                     )}
 
-                    <CRow>
-                      <CCol xs={6}>
+                    <CRow className="justify-content-center">
+                      <CCol xs={1}>
                         <CButton type="submit" color="primary" className="px-4">
                           Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
                         </CButton>
                       </CCol>
                     </CRow>

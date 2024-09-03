@@ -13,67 +13,8 @@ const ProductTable = ({
 }) => {
   const columns = [
     {
-      name: 'image',
-      selector: (row) => row.image,
-      cell: (row, index, column, id) => (
-        <div>
-          <CAvatar src={row.image} />
-        </div>
-      ),
-    },
-    {
-      name: 'Nombre',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'Existencia',
-      selector: (row) => row.stock,
-    },
-    {
-      name: 'Precio',
-      sortable: true,
-      style: { fontWeight: '700' },
-      selector: (row) => row.price,
-      format: (row) => MostrarPesoCOP(row.price),
-    },
-    {
-      name: 'Categoria',
-      selector: (row) => row.Category?.name,
-    },
-    {
-      name: 'Estado',
-      selector: (row) => row.Category?.name,
-      cell: (row) => (
-        <div>
-          {row.published ? (
-            <CBadge color="success">Publicado</CBadge>
-          ) : (
-            <CBadge color="danger">No Publicado</CBadge>
-          )}
-        </div>
-      ),
-    },
-    {
-      name: 'Descuento',
-      selector: (row) => row.Category?.name,
-      cell: (row) => (
-        <div>
-          {row.is_discount ? (
-            <>
-              <CBadge color="success">{`En ${row.discount_percentage}% de Descuento`} </CBadge>
-              <small>
-                {MostrarPesoCOP(row.price - row.price * (row.discount_percentage / 100))}
-              </small>
-            </>
-          ) : (
-            <CBadge color="danger">No</CBadge>
-          )}
-        </div>
-      ),
-    },
-    {
       name: 'Aciones',
+      width: '110px',
       cell: (p) => (
         <div className="d-flex">
           <button
@@ -113,6 +54,79 @@ const ProductTable = ({
         </div>
       ),
     },
+    {
+      name: 'Img',
+      width: '90px',
+      selector: (row) => row.image,
+      cell: (row, index, column, id) => (
+        <div className="p-2">
+          {row.image && (
+            <img
+              style={{ height: '50px', width: '50px', borderRadius: '50%' }}
+              src={row.image}
+              alt="TST"
+            />
+          )}
+        </div>
+      ),
+    },
+    {
+      name: 'Nombre',
+      style: { fontWeight: '600' },
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      width: '100px',
+      name: 'Existencia',
+      selector: (row) => row.stock,
+    },
+    {
+      name: 'Precio',
+      width: '170px',
+      sortable: true,
+      style: { fontWeight: '800' },
+      selector: (row) => row.price,
+      format: (row) => MostrarPesoCOP(row.price),
+    },
+    {
+      name: 'Categoria',
+      width: '100px',
+      selector: (row) => row.Category?.name,
+    },
+    {
+      name: 'Estado',
+      width: '90px',
+      selector: (row) => row.Category?.name,
+      cell: (row) => (
+        <div>
+          {row.published ? (
+            <CBadge color="success">Publicado</CBadge>
+          ) : (
+            <CBadge color="danger">No Publicado</CBadge>
+          )}
+        </div>
+      ),
+    },
+    {
+      name: 'Descuento',
+      width: '90px',
+      selector: (row) => row.Category?.name,
+      cell: (row) => (
+        <div>
+          {row.is_discount ? (
+            <>
+              <CBadge color="success">{`En ${row.discount_percentage}% de Descuento`} </CBadge>
+              <small>
+                {MostrarPesoCOP(row.price - row.price * (row.discount_percentage / 100))}
+              </small>
+            </>
+          ) : (
+            <CBadge color="danger">No</CBadge>
+          )}
+        </div>
+      ),
+    },
   ]
 
   const conditionalRowStyles = []
@@ -125,15 +139,20 @@ const ProductTable = ({
   }
   return (
     <CTable responsive="xl">
-      <DataTable
-        responsive
-        pagination
-        paginationComponentOptions={paginationComponentOptions}
-        paginationPerPage={10}
-        columns={columns}
-        data={products}
-        conditionalRowStyles={conditionalRowStyles}
-      />
+      {products && (
+        <div className="bg-white rounded-2 mt-1">
+          <DataTable
+            className="p-0"
+            responsive
+            pagination
+            paginationComponentOptions={paginationComponentOptions}
+            paginationPerPage={10}
+            columns={columns}
+            data={products}
+            conditionalRowStyles={conditionalRowStyles}
+          />
+        </div>
+      )}
     </CTable>
   )
 }

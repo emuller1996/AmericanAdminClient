@@ -65,6 +65,12 @@ const _nav = [
     to: '/usuarios',
     icon: <i className="mx-3 fa-solid fa-user-gear"></i>,
   },
+  {
+    component: CNavItem,
+    name: 'Logs',
+    to: '/logs',
+    icon: <i className="mx-3 fa-solid fa-terminal"></i>,
+  },
 ]
 
 export default _nav

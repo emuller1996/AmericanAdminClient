@@ -12,7 +12,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap'
 import ImportForm from './ImportForm'
 
 const ProductList = () => {
-  const [productsAll, setProductsAll] = useState([])
+  const [productsAll, setProductsAll] = useState(null)
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
   const [visibleModalTallas, setVisibleModalTallas] = useState(false)
